@@ -1,0 +1,50 @@
+NAME
+    RDF::vCard - convert between RDF and vCard
+
+SYNOPSIS
+     use RDF::vCard;
+ 
+     my $input    = "http://example.com/contact-data.rdf";
+     my $exporter = RDF::vCard::Exporter->new;
+ 
+     print $_ foreach $exporter->export_cards($input);
+
+DESCRIPTION
+    This module doesn't do anything itself; it just loads
+    RDF::vCard::Exporter for you.
+
+  RDF::vCard::Exporter
+    RDF::vCard::Exporter takes some RDF using the W3C's vCard vocabulary,
+    and outputs RDF::vCard::Entity objects.
+
+  RDF::vCard::Importer
+    This hasn't been written yet, but is planned.
+
+  RDF::vCard::Entity
+    An RDF::vCard::Entity objects is an individual vCard. It overloads
+    stringification, so just treat it like a string.
+
+  RDF::vCard::Line
+    RDF::vCard::Line is internal fu that you probably don't want to touch.
+
+BUGS
+    If your RDF asserts that Alice is Bob's AGENT and Bob is Alice's AGENT,
+    then RDF::vCard::Export will eat your face. Don't do it.
+
+    Please report any other bugs to
+    <https://rt.cpan.org/Public/Dist/Display.html?Name=RDF-vCard>.
+
+SEE ALSO
+    <http://www.w3.org/Submission/vcard-rdf/>.
+
+    <http://perlrdf.org/>.
+
+AUTHOR
+    Toby Inkster <tobyink@cpan.org>.
+
+COPYRIGHT
+    Copyright 2011 Toby Inkster
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+

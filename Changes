@@ -1,0 +1,14 @@
+############################################################################
+## Changes #################################################################
+############################################################################
+
+RDF-vCard
+=========
+
+Created:      2011-01-05
+Home page:    <http://search.cpan.org/dist/RDF-vCard/>
+Bug tracker:  <http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard>
+Maintainer:   Toby Inkster <mailto:tobyink@cpan.org>
+
+0.001 [2011-01-06] # Initial release. RDF to vCard only.
+
