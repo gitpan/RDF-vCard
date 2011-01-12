@@ -1,51 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rdf:RDF
-   xmlns:dc="http://purl.org/dc/terms/"
-   xmlns:dcs="http://ontologi.es/doap-changeset#"
-   xmlns:foaf="http://xmlns.com/foaf/0.1/"
-   xmlns:my="http://purl.org/NET/cpan-uri/dist/RDF-vCard/"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-   xmlns:toby="http://tobyinkster.co.uk/#"
-   xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-   xmlns="http://usefulinc.com/ns/doap#">
-  <rdf:Description rdf:about="file:///home/tai/src/perlmods/RDF-vCard/Changes.ttl">
-    <dc:creator rdf:resource="http://tobyinkster.co.uk/#i"/>
-    <dc:description xml:lang="en">Revision history for Perl extension RDF::vCard.</dc:description>
-    <dc:subject rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/project"/>
-    <dc:title>Changes</dc:title>
-  </rdf:Description>
-  <Version rdf:about="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-001">
-    <dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2011-01-06</dc:issued>
-    <file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.001.tar.gz"/>
-    <revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.001</revision>
-    <rdfs:label xml:lang="en">Initial release. RDF to vCard only.</rdfs:label>
-  </Version>
-  <Project rdf:about="http://purl.org/NET/cpan-uri/dist/RDF-vCard/project">
-    <bug-database rdf:resource="http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard"/>
-    <created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2011-01-05</created>
-    <developer rdf:resource="http://tobyinkster.co.uk/#i"/>
-    <documenter rdf:resource="http://tobyinkster.co.uk/#i"/>
-    <download-page rdf:resource="http://search.cpan.org/dist/RDF-vCard/"/>
-    <homepage rdf:resource="http://search.cpan.org/dist/RDF-vCard/"/>
-    <license rdf:resource="http://dev.perl.org/licenses/"/>
-    <maintainer rdf:resource="http://tobyinkster.co.uk/#i"/>
-    <name>RDF-vCard</name>
-    <programming-language>Perl</programming-language>
-    <release rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-001"/>
-    <repository>
-      <SVNRepository>
-        <browse rdf:resource="http://goddamn.co.uk/viewvc/perlmods/RDF-vCard/"/>
-      </SVNRepository>
-    </repository>
-    <shortdesc xml:lang="en">convert between RDF and vCard</shortdesc>
-    <tester rdf:resource="http://tobyinkster.co.uk/#i"/>
-  </Project>
-  <foaf:Person rdf:about="http://tobyinkster.co.uk/#i">
-    <ns1:sameAs xmlns:ns1="http://www.w3.org/2002/07/owl#" rdf:resource="http://purl.org/NET/cpan-uri/person/tobyink"/>
-    <foaf:homepage rdf:resource="http://tobyinkster.co.uk/"/>
-    <foaf:mbox rdf:resource="mailto:tobyink@cpan.org"/>
-    <foaf:name>Toby Inkster</foaf:name>
-    <foaf:page rdf:resource="http://search.cpan.org/~tobyink/"/>
-  </foaf:Person>
+<rdf:RDF xmlns:dbug="http://ontologi.es/doap-bugs#" xmlns:dc="http://purl.org/dc/terms/" xmlns:dcs="http://ontologi.es/doap-changeset#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+<rdf:Description rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r0">
+	<dcs:item rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r1"/>
+	<dcs:item rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r2"/>
+	<dcs:item rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r3"/>
+	<dcs:item rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r4"/>
+	<dcs:item rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r5"/>
+	<dcs:item rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r6"/>
+	<dcs:versus rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-001"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r1">
+	<rdfs:label xml:lang="en">Proper support for vCard CATEGORIES property.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r2">
+	<rdfs:label xml:lang="en">Support for RDF vCard 2006 v:homeTel property and its ilk.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r3">
+	<rdfs:label xml:lang="en">Improved support for 'data:' URIs in binary vCard properties.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r4">
+	<rdf:type rdf:resource="http://ontologi.es/doap-changeset#Addition"/>
+	<rdfs:label xml:lang="en">Include vCard VERSION property in output.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r5">
+	<rdfs:label xml:lang="en">Tidied up export_card method.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r6">
+	<rdfs:label xml:lang="en">More consistent support for comma-escaping.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r7">
+	<doap:browse rdf:resource="http://goddamn.co.uk/viewvc/perlmods/RDF-vCard/"/>
+	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#SVNRepository"/>
+</rdf:Description>
+<rdf:Description rdf:about="file:///home/tai/src/perlmods/RDF-vCard/Changes.ttl">
+	<dc:creator rdf:resource="http://tobyinkster.co.uk/#i"/>
+	<dc:description xml:lang="en">Revision history for Perl extension RDF::vCard.</dc:description>
+	<dc:subject rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/project"/>
+	<dc:title>Changes</dc:title>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/RDF-vCard/project">
+	<doap:bug-database rdf:resource="http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard"/>
+	<doap:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2011-01-05</doap:created>
+	<doap:developer rdf:resource="http://tobyinkster.co.uk/#i"/>
+	<doap:documenter rdf:resource="http://tobyinkster.co.uk/#i"/>
+	<doap:download-page rdf:resource="http://search.cpan.org/dist/RDF-vCard/"/>
+	<doap:homepage rdf:resource="http://search.cpan.org/dist/RDF-vCard/"/>
+	<doap:license rdf:resource="http://dev.perl.org/licenses/"/>
+	<doap:maintainer rdf:resource="http://tobyinkster.co.uk/#i"/>
+	<doap:name>RDF-vCard</doap:name>
+	<doap:programming-language>Perl</doap:programming-language>
+	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-001"/>
+	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-002"/>
+	<doap:repository rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r7"/>
+	<doap:shortdesc xml:lang="en">convert between RDF and vCard</doap:shortdesc>
+	<doap:tester rdf:resource="http://tobyinkster.co.uk/#i"/>
+	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-001">
+	<dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2011-01-06</dc:issued>
+	<doap:file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.001.tar.gz"/>
+	<doap:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.001</doap:revision>
+	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Version"/>
+	<rdfs:label xml:lang="en">Initial release. RDF to vCard only.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-002">
+	<dcs:changeset rdf:nodeID="r19F742CA1E3211E09D428CD71D6A7723r0"/>
+	<dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2011-01-12</dc:issued>
+	<doap:file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.002.tar.gz"/>
+	<doap:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.002</doap:revision>
+	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Version"/>
+</rdf:Description>
+<rdf:Description xmlns:ns1="http://www.w3.org/2002/07/owl#" rdf:about="http://tobyinkster.co.uk/#i">
+	<rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+	<ns1:sameAs rdf:resource="http://purl.org/NET/cpan-uri/person/tobyink"/>
+	<foaf:homepage rdf:resource="http://tobyinkster.co.uk/"/>
+	<foaf:mbox rdf:resource="mailto:tobyink@cpan.org"/>
+	<foaf:name>Toby Inkster</foaf:name>
+	<foaf:page rdf:resource="http://search.cpan.org/~tobyink/"/>
+</rdf:Description>
 </rdf:RDF>

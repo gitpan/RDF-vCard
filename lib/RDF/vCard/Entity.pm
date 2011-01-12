@@ -5,7 +5,7 @@ use common::sense;
 
 use overload '""' => \&to_string;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 sub new
 {

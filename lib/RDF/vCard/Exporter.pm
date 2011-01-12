@@ -3,10 +3,12 @@ package RDF::vCard::Exporter;
 use 5.008;
 use common::sense;
 
+use MIME::Base64 qw[];
 use RDF::vCard::Entity;
 use RDF::vCard::Line;
 use RDF::TrineShortcuts qw[:all];
 use Scalar::Util qw[blessed];
+use URI;
 
 # kinda constants
 sub V    { return 'http://www.w3.org/2006/vcard/ns#' . shift; }
@@ -16,8 +18,36 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 
 use namespace::clean;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 our $PRODID  = sprintf("+//IDN cpan.org//NONSGML %s v %s//EN", __PACKAGE__, $VERSION);
+
+our %dispatch = (
+	V('adr')             => \&_prop_export_adr,
+	V('n')               => \&_prop_export_n,
+	V('geo')             => \&_prop_export_geo,
+	V('org')             => \&_prop_export_org,
+	V('agent')           => \&_prop_export_agent,
+	V('tel')             => \&_prop_export_typed,
+	V('email')           => \&_prop_export_typed,
+	V('label')           => \&_prop_export_typed,
+	VX('impp')           => \&_prop_export_typed,
+	V('fax')             => \&_prop_export_shortcut,
+	V('homeAdr')         => \&_prop_export_shortcut,
+	V('homeTel')         => \&_prop_export_shortcut,
+	V('mobileEmail')     => \&_prop_export_shortcut,
+	V('mobileTel')       => \&_prop_export_shortcut,
+	V('personalEmail')   => \&_prop_export_shortcut,
+	V('unlabeledAdr')    => \&_prop_export_shortcut,
+	V('unlabeledEmail')  => \&_prop_export_shortcut,
+	V('unlabeledTel')    => \&_prop_export_shortcut,
+	V('workAdr')         => \&_prop_export_shortcut,
+	V('workEmail')       => \&_prop_export_shortcut,
+	V('workTel')         => \&_prop_export_shortcut,
+	V('photo')           => \&_prop_export_binary,
+	V('sound')           => \&_prop_export_binary,
+	V('logo')            => \&_prop_export_binary,
+	V('key')             => \&_prop_export_binary,
+	);
 
 sub new
 {
@@ -28,7 +58,7 @@ sub new
 sub export_cards
 {
 	my ($self, $model, %options) = @_;
-	$model = RDF::TrineShortcuts::rdf_parse($model)
+	$model = rdf_parse($model)
 		unless blessed($model) && $model->isa('RDF::Trine::Model');
 	
 	my @subjects =  $model->subjects(rdf_resource(RDF('type')), rdf_resource(V('VCard')));
@@ -57,6 +87,7 @@ sub export_card
 	
 	my $card = RDF::vCard::Entity->new( profile=>'VCARD' );
 	
+	my %categories;
 	my $triples = $model->get_statements($subject, undef, undef);
 	while (my $triple = $triples->next)
 	{
@@ -64,41 +95,17 @@ sub export_card
 			unless (substr($triple->predicate->uri, 0, length(&V)) eq &V or
 					  substr($triple->predicate->uri, 0, length(&VX)) eq &VX);
 
-		if ($triple->predicate->uri eq V('adr'))
+		if (defined $dispatch{$triple->predicate->uri}
+		and ref($dispatch{$triple->predicate->uri}) eq 'CODE')
 		{
-			$card->add($self->_prop_export_adr($model, $triple));
+			my $code = $dispatch{$triple->predicate->uri};
+			$card->add($code->($self, $model, $triple));
 		}
-		elsif ($triple->predicate->uri eq V('n'))
-		{ 
-			$card->add($self->_prop_export_n($model, $triple));
-		}
-		elsif ($triple->predicate->uri eq V('geo'))
-		{ 
-			$card->add($self->_prop_export_geo($model, $triple));
-		}
-		elsif ($triple->predicate->uri eq V('org'))
+		elsif ($triple->predicate->uri eq V('category')
+		or     $triple->predicate->uri eq VX('category'))
 		{
-			$card->add($self->_prop_export_org($model, $triple));
-		}
-		elsif ($triple->predicate->uri eq V('agent'))
-		{
-			$card->add($self->_prop_export_agent($model, $triple));
-		}
-		elsif ($triple->predicate->uri eq V('tel'))
-		{
-			$card->add($self->_prop_export_typed($model, $triple));
-		}
-		elsif ($triple->predicate->uri eq V('email'))
-		{
-			$card->add($self->_prop_export_typed($model, $triple));
-		}
-		elsif ($triple->predicate->uri eq VX('impp'))
-		{
-			$card->add($self->_prop_export_typed($model, $triple));
-		}
-		elsif ($triple->predicate->uri eq V('label'))
-		{
-			$card->add($self->_prop_export_typed($model, $triple));
+			my $c = $self->_prop_extract_category($model, $triple);
+			$categories{$c}++;
 		}
 		elsif (! $triple->object->is_blank)
 		{
@@ -106,6 +113,23 @@ sub export_card
 		}
 	}
 	
+	if (keys %categories)
+	{
+		$card->add(
+			RDF::vCard::Line->new(
+				property        => 'categories',
+				value           => [[ sort keys %categories ]],
+				)
+			);
+	}
+	
+	$card->add(
+		RDF::vCard::Line->new(
+			property        => 'version',
+			value           => '3.0',
+			)
+		);
+		
 	$card->add(
 		RDF::vCard::Line->new(
 			property        => 'prodid',
@@ -172,7 +196,7 @@ sub _prop_export_adr
 		region postal-code country-name))
 	{
 		my @objects = $model->objects($triple->object, rdf_resource(V($part)));
-		push @$adr, (join ",", map { flatten_node($_) } @objects);
+		push @$adr, [ map { flatten_node($_) } @objects ];
 	}
 
 	my $params = {};
@@ -220,7 +244,7 @@ sub _prop_export_n
 	foreach my $part (qw(family-name given-name additional-name honorific-prefix honorific-suffix))
 	{
 		my @objects = $model->objects($triple->object, rdf_resource(V($part)));
-		push @$n, (join ",", map { flatten_node($_) } @objects);
+		push @$n, [ map { flatten_node($_) } @objects ];
 	}
 	
 	return RDF::vCard::Line->new(
@@ -318,6 +342,7 @@ sub _prop_export_typed
 	if ($prop eq 'email' and $value =~ /^mailto:(.+)$/i)
 	{
 		$value = $1;
+		$types->{INTERNET} = 1;
 	}
 	elsif ($prop eq 'tel' and $value =~ /^(tel|fax|modem):(.+)$/i)
 	{
@@ -365,6 +390,104 @@ sub _prop_export_typed
 		type_parameters => $params,
 		);
 }
+
+sub _prop_export_shortcut
+{
+	my ($self, $model, $triple) = @_;
+	
+	my $shortcuts = {
+		V('fax')             => [V('tel')   => ['FAX']],
+		V('homeAdr')         => [V('adr')   => ['HOME']],
+		V('homeTel')         => [V('tel')   => ['HOME']],
+		V('mobileEmail')     => [V('email') => undef], # EMAIL;TYPE=CELL not allowed by RFC 2426
+		V('mobileTel')       => [V('tel')   => ['CELL']],
+		V('personalEmail')   => [V('email') => undef], # RFC 2426 doesn't define TYPE=PERSONAL
+		V('unlabeledAdr')    => [V('adr')   => undef],
+		V('unlabeledEmail')  => [V('email') => undef],
+		V('unlabeledTel')    => [V('tel')   => undef],
+		V('workAdr')         => [V('adr')   => ['WORK']],
+		V('workEmail')       => [V('email') => undef], # EMAIL;TYPE=WORK not allowed by RFC 2426
+		V('workTel')         => [V('tel')   => ['WORK']],
+		};
+	
+	if (exists $shortcuts->{$triple->predicate->uri})
+	{
+		my ($property_uri, $types) = @{ $shortcuts->{$triple->predicate->uri} };
+		my $line;
+
+		if (defined $dispatch{$property_uri}
+		and ref($dispatch{$property_uri}) eq 'CODE')
+		{
+			my $code = $dispatch{$property_uri};
+			$line    = $code->($self, $model, $triple);
+		}
+		elsif (! $triple->object->is_blank)
+		{
+			$line = $self->_prop_export_simple($model, $triple);
+		}
+
+		if ($line)
+		{
+			push @{ $line->type_parameters->{type} }, @$types;
+			return $line;
+		}
+	}
+}
+
+sub _prop_export_binary
+{
+	my ($self, $model, $triple) = @_;
+	my $line = $self->_prop_export_simple($model, $triple);
+	
+	if ($line->value->[0] =~ /^data:\S+$/)
+	{
+		my $data_uri = URI->new( $line->value->[0] );
+		my $data     = $data_uri->data;
+		my $medium   = $data_uri->media_type;
+		
+		$line->value->[0] = MIME::Base64::encode_base64($data, '');
+		$line->type_parameters->{value}    = 'BINARY';
+		$line->type_parameters->{encoding} = 'B';
+		if ($medium =~ m'^image/([a-z0-9\_\-\+]+)'i)
+		{
+			$line->type_parameters->{type} = [ uc($1) ];
+		}
+	}
+	
+	return $line;
+}
+
+sub _prop_extract_category
+{
+	my ($self, $model, $triple) = @_;
+	
+	if ($triple->object->is_literal)
+	{
+		return uc $triple->object->literal_value;
+	}
+
+	my @labels = grep
+		{ $_->is_literal }
+		$model->objects_for_predicate_list(
+			$triple->object,
+			rdf_resource('http://www.w3.org/2004/02/skos/core#prefLabel'),
+			rdf_resource('http://www.holygoat.co.uk/owl/redwood/0.1/tags/name'),
+			rdf_resource('http://www.w3.org/2000/01/rdf-schema#label'),
+			rdf_resource('http://www.w3.org/2004/02/skos/core#altLabel'),
+			rdf_resource('http://www.w3.org/2004/02/skos/core#notation'),
+			rdf_resource(RDF('value')),
+			);
+	
+	if (@labels)
+	{
+		return uc $labels[0]->literal_value;
+	}
+	elsif ($triple->object->is_resource)
+	{
+		return $triple->object->uri;
+	}
+}
+
 
 1;
 

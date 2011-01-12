@@ -5,7 +5,7 @@ use common::sense;
 
 use overload '""' => \&to_string;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 sub new
 {
@@ -41,12 +41,13 @@ sub property_order
 {
 	my ($self) = @_;
 	my $p = lc $self->property;
-	return 0 if $p eq 'prodid';
-	return 1 if $p eq 'source';
-	return 2 if $p eq 'kind';
-	return 3 if $p eq 'fn';
-	return 4 if $p eq 'n';
-	return 5 if $p eq 'org';
+	return 0 if $p eq 'version';
+	return 1 if $p eq 'prodid';
+	return 2 if $p eq 'source';
+	return 3 if $p eq 'kind';
+	return 4 if $p eq 'fn';
+	return 5 if $p eq 'n';
+	return 6 if $p eq 'org';
 	return $p;
 }
 
@@ -62,7 +63,7 @@ sub to_string
 			my $values = $self->type_parameters->{$parameter};
 			$values = [$values]
 				unless ref $values eq 'ARRAY';
-			my $values_string = join ",", map { $self->_escape_value($_, comma=>1) } @$values;
+			my $values_string = join ",", map { $self->_escape_value($_) } @$values;
 			$str .= sprintf(";%s=%s", uc $parameter, $values_string);
 		}
 	}
@@ -87,7 +88,19 @@ sub to_string
 sub value_to_string
 {
 	my ($self) = @_;	
-	my $str = join ";", map { $self->_escape_value($_) } @{ $self->value };
+	my $str = join ";",
+		map
+		{
+			my $val = $_;
+			if (ref $val eq 'ARRAY')
+			{
+				join ",", map { $self->_escape_value($_) } @$val;
+			}
+			else
+			{
+				$self->_escape_value($val)
+			}
+		} @{ $self->value };
 	$str =~ s/;+$//;
 	return $str;
 }
@@ -100,7 +113,7 @@ sub _escape_value
 	$value =~ s/\\/\\\\/g;
 	$value =~ s/\n/\\n/g;
 	$value =~ s/;/\\;/g;
-	$value =~ s/,/\\,/g if $options{comma};
+	$value =~ s/,/\\,/g;
 	
 	return $value;
 }

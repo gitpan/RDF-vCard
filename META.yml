@@ -9,7 +9,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.91'
+generated_by: 'Module::Install version 1.00'
 keywords:
   - RDF
   - Semantic
@@ -29,9 +29,11 @@ no_index:
     - inc
     - t
 requires:
+  MIME::Base64: 0
   RDF::Trine: 0.130
   RDF::TrineShortcuts: 0.100
   Scalar::Util: 0
+  URI: 0
   common::sense: 0
   namespace::clean: 0
   perl: 5.8.0
@@ -40,4 +42,4 @@ resources:
   homepage: http://search.cpan.org/dist/RDF-vCard/
   license: http://dev.perl.org/licenses/
   repository: http://goddamn.co.uk/viewvc/perlmods/RDF-vCard/
-version: 0.001
+version: 0.002

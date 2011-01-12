@@ -10,5 +10,13 @@ Home page:    <http://search.cpan.org/dist/RDF-vCard/>
 Bug tracker:  <http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard>
 Maintainer:   Toby Inkster <mailto:tobyink@cpan.org>
 
+0.002 [2011-01-12]
+ - Improved support for 'data:' URIs in binary vCard properties.
+ - More consistent support for comma-escaping.
+ - Proper support for vCard CATEGORIES property.
+ - Support for RDF vCard 2006 v:homeTel property and its ilk.
+ - Tidied up export_card method.
+ - (Addition) Include vCard VERSION property in output.
+
 0.001 [2011-01-06] # Initial release. RDF to vCard only.
 

@@ -28,6 +28,22 @@ my:v_0-001
 	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.001.tar.gz> ;
 	rdfs:label      "Initial release. RDF to vCard only."@en .
 
+my:v_0-002
+
+	a               :Version ;
+	dc:issued       "2011-01-12"^^xsd:date ;
+	:revision       "0.002"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.002.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-001 ;
+		dcs:item   [ rdfs:label "Proper support for vCard CATEGORIES property."@en ] ;
+		dcs:item   [ rdfs:label "Support for RDF vCard 2006 v:homeTel property and its ilk."@en ] ;
+		dcs:item   [ rdfs:label "Improved support for 'data:' URIs in binary vCard properties."@en ] ;
+		dcs:item   [ rdfs:label "Include vCard VERSION property in output."@en ; a dcs:Addition ] ;
+		dcs:item   [ rdfs:label "Tidied up export_card method."@en ] ;
+		dcs:item   [ rdfs:label "More consistent support for comma-escaping."@en ]
+		] .
+
 #############################################################
 
 my:project
@@ -46,7 +62,7 @@ my:project
 	:tester         toby:i ;
 	:created        "2011-01-05"^^xsd:date ;
 	:license        <http://dev.perl.org/licenses/> ;
-	:release        my:v_0-001 .
+	:release        my:v_0-001 , my:v_0-002 .
 
 #############################################################
 
