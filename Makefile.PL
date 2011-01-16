@@ -22,6 +22,7 @@ requires            'RDF::Trine'          => '0.130';
 requires            'RDF::TrineShortcuts' => '0.100';
 requires            'Scalar::Util'        => 0;
 test_requires       'Test::More'          => '0.61';
+requires            'Text::vFile::asData' => '0.07';
 requires            'URI'                 => 0;
 
 resources(

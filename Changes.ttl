@@ -44,6 +44,20 @@ my:v_0-002
 		dcs:item   [ rdfs:label "More consistent support for comma-escaping."@en ]
 		] .
 
+my:v_0-003
+
+	a               :Version ;
+	dc:issued       "2011-01-16"^^xsd:date ;
+	:revision       "0.003"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.003.tar.gz> ;
+	rdfs:label      "Two-way conversions."@en ;
+	dcs:changeset [
+		dcs:versus my:v_0-002 ;
+		dcs:item   [ rdfs:label "Add RDF::vCard::Importer module."@en ; a dcs:Addition ] ;
+		dcs:item   [ rdfs:label "RDF::vCard::Entity now has add_to_model() and node() methods."@en ; a dcs:Addition ] ;
+		dcs:item   [ rdfs:label "RDF::vCard::Line now has an add_to_model() method."@en ; a dcs:Addition ]
+		] .
+
 #############################################################
 
 my:project
@@ -62,7 +76,7 @@ my:project
 	:tester         toby:i ;
 	:created        "2011-01-05"^^xsd:date ;
 	:license        <http://dev.perl.org/licenses/> ;
-	:release        my:v_0-001 , my:v_0-002 .
+	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 .
 
 #############################################################
 

@@ -3,8 +3,9 @@ package RDF::vCard;
 use 5.008;
 use common::sense;
 use RDF::vCard::Exporter;
+use RDF::vCard::Importer;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 1;
 
@@ -17,16 +18,22 @@ RDF::vCard - convert between RDF and vCard
 =head1 SYNOPSIS
 
  use RDF::vCard;
+ use RDF::TrineShortcuts qw(rdf_string);
  
  my $input    = "http://example.com/contact-data.rdf";
  my $exporter = RDF::vCard::Exporter->new;
  
- print $_ foreach $exporter->export_cards($input);
+ my $data     = join '', $exporter->export_cards($input);
+ print $data; # vCard 3.0 data
+ 
+ my $importer = RDF::vCard::Importer->new;
+ $importer->import_string($data);
+ print rdf_string($importer->model => 'RDFXML');
 
 =head1 DESCRIPTION
 
-This module doesn't do anything itself; it just loads RDF::vCard::Exporter for
-you.
+This module doesn't do anything itself; it just loads RDF::vCard::Exporter 
+and RDF::vCard::Importer for you.
 
 =head2 RDF::vCard::Exporter
 
@@ -35,7 +42,7 @@ and outputs L<RDF::vCard::Entity> objects.
 
 =head2 RDF::vCard::Importer
 
-This hasn't been written yet, but is planned.
+L<RDF::vCard::Importer> does the reverse.
 
 =head2 RDF::vCard::Entity
 

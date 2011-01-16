@@ -10,6 +10,11 @@ Home page:    <http://search.cpan.org/dist/RDF-vCard/>
 Bug tracker:  <http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard>
 Maintainer:   Toby Inkster <mailto:tobyink@cpan.org>
 
+0.003 [2011-01-16] # Two-way conversions.
+ - (Addition) Add RDF::vCard::Importer module.
+ - (Addition) RDF::vCard::Entity now has add_to_model() and node() methods.
+ - (Addition) RDF::vCard::Line now has an add_to_model() method.
+
 0.002 [2011-01-12]
  - Improved support for 'data:' URIs in binary vCard properties.
  - More consistent support for comma-escaping.

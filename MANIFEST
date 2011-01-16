@@ -28,5 +28,6 @@ inc/Test/Signature.pm
 
 lib/RDF/vCard/Entity.pm
 lib/RDF/vCard/Exporter.pm
+lib/RDF/vCard/Importer.pm
 lib/RDF/vCard/Line.pm
 lib/RDF/vCard.pm

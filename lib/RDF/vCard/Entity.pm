@@ -3,9 +3,17 @@ package RDF::vCard::Entity;
 use 5.008;
 use common::sense;
 
-use overload '""' => \&to_string;
+use RDF::TrineShortcuts ':all';
 
-our $VERSION = '0.002';
+sub V    { return 'http://www.w3.org/2006/vcard/ns#' . shift; }
+sub VX   { return 'http://buzzword.org.uk/rdf/vcardx#' . shift; }
+sub RDF  { return 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' . shift; }
+sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
+
+use namespace::clean;
+
+use overload '""' => \&to_string;
+our $VERSION = '0.003';
 
 sub new
 {
@@ -13,7 +21,14 @@ sub new
 	$options{profile}    ||= 'VCARD';
 	$options{lines}      ||= [];
 	$options{components} ||= [];
+	$options{node}       ||= $class->_node;
 	bless { %options }, $class;
+}
+
+sub _node
+{
+	my ($class) = @_;
+	return RDF::Trine::Node::Blank->new;
 }
 
 sub profile
@@ -122,6 +137,30 @@ sub to_string
 	return $str;
 }
 
+sub node
+{
+	my ($self) = @_;
+	return $self->{node};
+}
+
+sub add_to_model
+{
+	my ($self, $model) = @_;
+	
+	$model->add_statement(rdf_statement(
+		$self->node,
+		rdf_resource( RDF('type') ),
+		rdf_resource( V('VCard') ),
+		));
+
+	foreach my $line (@{ $self->lines })
+	{
+		$line->add_to_model($model, $self->node);
+	}
+	
+	return $self;
+}
+
 1;
 
 __END__
@@ -162,6 +201,19 @@ RDF::vCard::Entity overloads stringification, so you can do the following:
 
 Formats the object according to RFC 2425 and RFC 2426.
 
+=item * C<< add_to_model($model) >>
+
+Given an RDF::Trine::Model, adds triples to the model for this entity.
+
+=item * C<< node() >>
+
+Returns an RDF::Trine::Node::Blank identifying this entity.
+
+=item * C<< entity_order() >>
+
+Returns a string along the lines of "Surname;Forename" useful for
+sorting a list of entities.
+
 =item * C<< profile() >>
 
 Returns the entity type - e.g. "VCARD".
@@ -176,11 +228,6 @@ This excludes the "BEGIN:VCARD" and "END:VCARD" lines.
 =item * C<< add($line) >>
 
 Add a L<RDF::vCard::Line>.
-
-=item * C<< entity_order() >>
-
-Returns a string along the lines of "Surname;Forename" useful for
-sorting a list of entities.
 
 =item * C<< get($property) >>
 
@@ -200,7 +247,7 @@ Checks to see if a property's value matches a regular expression.
 
 =head1 SEE ALSO
 
-L<RDF::vCard::Exporter>, L<RDF::vCard::Line>.
+L<RDF::vCard>.
 
 =head1 AUTHOR
 

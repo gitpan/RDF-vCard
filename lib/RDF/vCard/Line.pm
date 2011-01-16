@@ -3,9 +3,19 @@ package RDF::vCard::Line;
 use 5.008;
 use common::sense;
 
-use overload '""' => \&to_string;
+use MIME::Base64;
+use RDF::TrineShortcuts ':all';
+use URI::data;
 
-our $VERSION = '0.002';
+sub V    { return 'http://www.w3.org/2006/vcard/ns#' . shift; }
+sub VX   { return 'http://buzzword.org.uk/rdf/vcardx#' . shift; }
+sub RDF  { return 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' . shift; }
+sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
+
+use namespace::clean;
+
+use overload '""' => \&to_string;
+our $VERSION = '0.003';
 
 sub new
 {
@@ -14,8 +24,7 @@ sub new
 		unless defined $options{property};
 	$options{value} = [$options{value}]
 		unless ref $options{value} eq 'ARRAY';
-	delete $options{type_parameters}
-		unless $options{type_parameters};
+	$options{type_parameters} ||= [];
 	bless { %options }, $class;
 }
 
@@ -34,6 +43,7 @@ sub value
 sub type_parameters
 {
 	my ($self) = @_;
+	$self->{type_parameters} = {} unless ref $self->{type_parameters} eq 'HASH';
 	return $self->{type_parameters};
 }
 
@@ -56,7 +66,7 @@ sub to_string
 	my ($self) = @_;
 	
 	my $str = uc $self->property;
-	if ($self->type_parameters)
+	if (keys %{ $self->type_parameters })
 	{
 		foreach my $parameter (sort keys %{ $self->type_parameters })
 		{
@@ -109,13 +119,396 @@ sub _escape_value
 {
 	my ($self, $value, %options) = @_;
 	
-	$value =~ s/\r//g;
 	$value =~ s/\\/\\\\/g;
+	
+	$value =~ s/\r//g;
 	$value =~ s/\n/\\n/g;
 	$value =~ s/;/\\;/g;
 	$value =~ s/,/\\,/g;
 	
 	return $value;
+}
+
+sub _unescape_value
+{
+	my ($self, $value, %options) = @_;
+	
+	$value =~ s/\\r//gi;
+	$value =~ s/\\n/\n/gi;
+	$value =~ s/\\;/;/g;
+	$value =~ s/\\,/,/g;
+	
+	$value =~ s/\\\\/\\/g;
+	
+	return $value;
+}
+
+# RDF Export Stuff...
+
+sub add_to_model
+{
+	my ($self, $model, $card_node) = @_;
+	
+	my $special_func = sprintf('_add_to_model_%s', uc $self->property);
+	if ($self->can($special_func))
+	{
+		$self->$special_func($model, $card_node);
+	}
+	elsif ($self->property_node)
+	{
+		$model->add_statement(rdf_statement(
+			$card_node,
+			$self->property_node,
+			$self->value_node,
+			));
+	}
+	return $self;
+}
+
+sub value_node
+{
+	my ($self) = @_;
+
+	return rdf_literal($self->value_to_string, datatype=>'date')
+		if (defined $self->type_parameters and uc $self->type_parameters->{VALUE} eq 'DATE');
+
+	return rdf_literal($self->value_to_string, datatype=>'dateTime')
+		if (defined $self->type_parameters and uc $self->type_parameters->{VALUE} eq 'DATE-TIME');
+
+	return rdf_resource($self->value_to_string)
+		if (defined $self->type_parameters and uc $self->type_parameters->{VALUE} eq 'URI');
+
+	if (defined $self->type_parameters
+	and uc $self->type_parameters->{VALUE} eq 'BINARY'
+	and uc $self->type_parameters->{ENCODING} eq 'B')
+	{
+		my $uri = URI->new('data:');
+		if (ref $self->type_parameters->{TYPE} eq 'ARRAY')
+		{
+			$uri->media_type(sprintf('image/%s', lc $self->type_parameters->{TYPE}->[0]));
+		}
+		elsif (ref $self->type_parameters->{TYPE})
+		{
+			$uri->media_type(sprintf('image/%s', lc $self->type_parameters->{TYPE}));
+		}
+		else
+		{
+			$uri->media_type('application/octet-stream');
+		}
+		$uri->data( decode_base64($self->value->[0]) );
+		return rdf_resource("$uri");
+	}
+
+	return rdf_literal($self->value_to_string);
+}
+
+sub property_node
+{
+	my ($self) = @_;
+	
+	return rdf_resource(V(lc $self->property))
+		if lc $self->property =~ /^(adr|agent|email|geo|key|logo|
+			n|org|photo|sound|tel|url|bday|category|class|fn|
+			label|mailer|nickname|note|prodid|rev|role|sort\-string|
+			title|tz|uid)$/xi;
+
+	return rdf_resource(VX(lc $self->property))
+		if lc $self->property =~ /^(kind|gender|sex|dday|
+			anniversary|lang|member|caladruri|caluri|fburl|
+			impp|source)$/xi;
+
+	return rdf_resource(VX(lc $self->property))
+		if lc $self->property =~ /^x-/;
+	
+	return;
+}
+
+{
+	my %usage_type = (
+		bbs      => V('BBS'),
+		car      => V('Car'),
+		cell     => V('Cell'),
+		dom      => V('Dom'),
+		fax      => V('Fax'),
+		home     => V('Home'),
+		internet => V('Internet'),
+		intl     => V('Intl'),
+		isdn     => V('ISDN'),
+		modem    => V('Modem'),
+		msg      => V('Msg'),
+		pager    => V('Pager'),
+		parcel   => V('Parcel'),
+		pcs      => V('PCS'),
+		postal   => V('Postal'),
+		pref     => V('Pref'),
+		video    => V('Video'),
+		voice    => V('Voice'),
+		work     => V('Work'),
+		x400     => V('X400'),
+		);
+
+	my %intrinsic_type = (
+		adr      => V('Address'),
+		email    => V('Email'),
+		impp     => VX('Impp'),
+		label    => V('Label'),
+		tel      => V('Tel'),
+		);
+
+	sub _add_to_model_typed_thing
+	{
+		my ($self, $model, $card_node) = @_;
+		my $intermediate_node = RDF::Trine::Node::Blank->new;
+		
+		$model->add_statement(rdf_statement(
+			$card_node,
+			$self->property_node,
+			$intermediate_node,
+			));
+		
+		$model->add_statement(rdf_statement(
+			$intermediate_node,
+			rdf_resource(RDF('type')),
+			rdf_resource($intrinsic_type{ lc $self->property }),
+			))
+			if $intrinsic_type{ lc $self->property };
+		
+		$model->add_statement(rdf_statement(
+			$intermediate_node,
+			rdf_resource(RDF('value')),
+			$self->value_node,
+			));
+		
+		if ($self->type_parameters)
+		{
+			foreach my $type (@{ $self->type_parameters->{TYPE} })
+			{
+				if ($usage_type{lc $type})
+				{
+					$model->add_statement(rdf_statement(
+						$intermediate_node,
+						rdf_resource(RDF('type')),
+						rdf_resource($usage_type{lc $type}),
+						));
+				}
+				$model->add_statement(rdf_statement(
+					$intermediate_node,
+					rdf_resource(VX('usage')),
+					rdf_literal($type),
+					));
+			}
+		}
+		
+		return $intermediate_node;  # useful for _add_to_model_ADR
+	}
+
+}
+
+*_add_to_model_TEL   = \&_add_to_model_typed_thing;
+*_add_to_model_EMAIL = \&_add_to_model_typed_thing;
+*_add_to_model_LABEL = \&_add_to_model_typed_thing;
+*_add_to_model_IMPP  = \&_add_to_model_typed_thing;
+
+sub _add_to_model_AGENT
+{
+	warn "Outputting AGENT property to RDF not yet supported.";
+}
+
+sub _add_to_model_ADR
+{
+	my ($self, $model, $card_node) = @_;
+	my $intermediate_node = $self->_add_to_model_typed_thing($model, $card_node);
+	
+	my @properties = (
+		V('post-office-box'),
+		V('extended-address'),
+		V('street-address'),
+		V('locality'),
+		V('region'),
+		V('postal-code'),
+		V('country-name'),
+		);
+	
+	for (my $i=0; defined $properties[$i]; $i++)
+	{
+		next unless $self->value->[$i];
+		my @vals;
+		if (ref $self->value->[$i] eq 'ARRAY')
+		{
+			@vals = @{ $self->value->[$i] };
+		}
+		else
+		{
+			@vals = ($self->value->[$i]);
+		}
+		next unless @vals;
+		
+		foreach my $v (@vals)
+		{
+			$model->add_statement(rdf_statement(
+				$intermediate_node,
+				rdf_resource($properties[$i]),
+				rdf_literal($v),
+				));
+		}
+	}
+	
+	return $intermediate_node;
+}
+
+sub _add_to_model_GEO
+{
+	my ($self, $model, $card_node) = @_;
+	my $intermediate_node = RDF::Trine::Node::Blank->new;
+	
+	my @properties = (
+		V('latitude'),
+		V('longitude'),
+		);
+
+	$model->add_statement(rdf_statement(
+		$card_node,
+		$self->property_node,
+		$intermediate_node,
+		));
+	
+	$model->add_statement(rdf_statement(
+		$intermediate_node,
+		rdf_resource(RDF('type')),
+		rdf_resource(V('Location')),
+		));
+
+	for (my $i=0; defined $properties[$i]; $i++)
+	{
+		next unless $self->value->[$i];
+		
+		if (ref $self->value->[$i] eq 'ARRAY')
+		{
+			$model->add_statement(rdf_statement(
+				$intermediate_node,
+				rdf_resource($properties[$i]),
+				rdf_literal($self->value->[$i]->[0]),
+				));
+		}
+		else
+		{
+			$model->add_statement(rdf_statement(
+				$intermediate_node,
+				rdf_resource($properties[$i]),
+				rdf_literal($self->value->[$i]),
+				));
+		}
+	}
+	
+	return $intermediate_node;
+}
+
+sub _add_to_model_N
+{
+	my ($self, $model, $card_node) = @_;
+	my $intermediate_node = RDF::Trine::Node::Blank->new;
+	
+	my @properties = (
+		V('family-name'),
+		V('given-name'),
+		V('additional-name'),
+		V('honorific-suffix'),
+		V('honorific-prefix'),
+		);
+
+	$model->add_statement(rdf_statement(
+		$card_node,
+		$self->property_node,
+		$intermediate_node,
+		));
+	
+	$model->add_statement(rdf_statement(
+		$intermediate_node,
+		rdf_resource(RDF('type')),
+		rdf_resource(V('Name')),
+		));
+
+	for (my $i=0; defined $properties[$i]; $i++)
+	{
+		next unless $self->value->[$i];
+		
+		if (ref $self->value->[$i] eq 'ARRAY')
+		{
+			foreach my $v (@{ $self->value->[$i] })
+			{
+				$model->add_statement(rdf_statement(
+					$intermediate_node,
+					rdf_resource($properties[$i]),
+					rdf_literal($v),
+					));
+			}
+		}
+		else
+		{
+			$model->add_statement(rdf_statement(
+				$intermediate_node,
+				rdf_resource($properties[$i]),
+				rdf_literal($self->value->[$i]),
+				));
+		}
+	}
+	
+	return $intermediate_node;
+}
+
+sub _add_to_model_ORG
+{
+	my ($self, $model, $card_node) = @_;
+
+	my @units;
+	foreach my $v1 (@{ $self->value })
+	{
+		if (ref($v1) eq 'ARRAY')
+		{
+			foreach my $v2 (@$v1)
+			{
+				push @units, $v2;
+			}
+		}
+		else
+		{
+			push @units, $v1;
+		}
+	}
+
+	my $intermediate_node = RDF::Trine::Node::Blank->new;
+	
+	$model->add_statement(rdf_statement(
+		$card_node,
+		$self->property_node,
+		$intermediate_node,
+		));
+	
+	$model->add_statement(rdf_statement(
+		$intermediate_node,
+		rdf_resource(RDF('type')),
+		rdf_resource(V('Organization')),
+		));
+
+	my $org = shift @units;
+
+	if ($org)
+	{
+		$model->add_statement(rdf_statement(
+			$intermediate_node,
+			rdf_resource(V('organization-name')),
+			rdf_literal($org),
+			));
+	}
+
+	foreach my $u (@units)
+	{
+		$model->add_statement(rdf_statement(
+			$intermediate_node,
+			rdf_resource(V('organization-unit')),
+			rdf_literal($u),
+			));
+	}
 }
 
 1;
@@ -163,32 +556,49 @@ RDF::vCard::Entity overloads stringification, so you can do the following:
 
 Formats the line according to RFC 2425 and RFC 2426.
 
-=item * C<< value_to_string() >>
+=item * C<< add_to_model($model, $node) >>
 
-Formats just the value according to RFC 2425 and RFC 2426.
+Given an RDF::Trine::Model and an RDF::Trine::Node representing the
+entity (i.e. vcard) that this line belongs to, adds triples to the
+model for this line.
 
 =item * C<< property() >>
 
-Returns the entity property - e.g. "EMAIL".
+Returns the line's property - e.g. "EMAIL".
 
-=item * C<< value() >>
+=item * C<< property_node() >>
 
-Returns an arrayref for the value.
-
-=item * C<< type_parameters() >>
-
-Returns the type_parameters hashref.
+Returns the line's property as an RDF::Trine::Node that can be used as an
+RDF predicate. Returns undef if a sensible URI cannot be found.
 
 =item * C<< property_order() >>
 
 Returns a string which can be used to sort a list of lines into a sensible
 order.
 
+=item * C<< value() >>
+
+Returns an arrayref for the value.
+
+=item * C<< value_node() >>
+
+Returns the line's value as an RDF::Trine::Node that can be used as an
+RDF object. For some complex properties (e.g. ADR, GEO, ORG, N, etc) the
+result is not especially useful.
+
+=item * C<< value_to_string() >>
+
+Formats the line value according to RFC 2425 and RFC 2426.
+
+=item * C<< type_parameters() >>
+
+Returns the type_parameters hashref.
+
 =back
 
 =head1 SEE ALSO
 
-L<RDF::vCard::Entity>.
+L<RDF::vCard>.
 
 =head1 AUTHOR
 

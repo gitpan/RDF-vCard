@@ -18,7 +18,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 
 use namespace::clean;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 our $PRODID  = sprintf("+//IDN cpan.org//NONSGML %s v %s//EN", __PACKAGE__, $VERSION);
 
 our %dispatch = (
@@ -597,11 +597,11 @@ IMPP and KIND properties.
 
 =head1 SEE ALSO
 
-L<HTML::Microformats>, L<RDF::TrineShortcuts>.
+L<RDF::vCard>, L<HTML::Microformats>, L<RDF::TrineShortcuts>.
 
 L<http://www.w3.org/Submission/vcard-rdf/>.
 
-L<http://perlrdf.org/>.
+L<http://www.perlrdf.org/>.
 
 =head1 AUTHOR
 

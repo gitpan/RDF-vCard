@@ -1,5 +1,10 @@
-use Test::More tests => 5;
+use Test::More tests => 6;
 BEGIN { use_ok('RDF::vCard') };
+
+ok(
+	RDF::vCard::Importer->can('new'),
+	"RDF::vCard::Importer can be instantiated.",
+	);
 
 ok(
 	RDF::vCard::Exporter->can('new'),
