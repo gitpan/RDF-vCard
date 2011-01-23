@@ -5,7 +5,7 @@ use common::sense;
 use RDF::vCard::Exporter;
 use RDF::vCard::Importer;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 1;
 

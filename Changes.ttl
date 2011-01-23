@@ -58,6 +58,17 @@ my:v_0-003
 		dcs:item   [ rdfs:label "RDF::vCard::Line now has an add_to_model() method."@en ; a dcs:Addition ]
 		] .
 
+my:v_0-004
+
+	a               :Version ;
+	dc:issued       "2011-01-23"^^xsd:date ;
+	:revision       "0.004"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.004.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-003 ;
+		dcs:item   [ rdfs:label "More flexibility for other classes wanting to subclass this - particularly around different datatypes."@en ]
+		] .
+
 #############################################################
 
 my:project
@@ -76,7 +87,7 @@ my:project
 	:tester         toby:i ;
 	:created        "2011-01-05"^^xsd:date ;
 	:license        <http://dev.perl.org/licenses/> ;
-	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 .
+	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 .
 
 #############################################################
 

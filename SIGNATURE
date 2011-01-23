@@ -14,12 +14,12 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 0a90f88e074d6c256eb15c3b851f5fc261c328fa Changes
-SHA1 abd8009320752018a055905b0308584feb557bb8 Changes.ttl
-SHA1 3810680cf0549332dffc2e46c5975449bf7d0150 Changes.xml
+SHA1 6a78c4cee5c9939a08e62d3fe75db51aaa96f637 Changes
+SHA1 7ba591bd0901fd725d4530beabc72f564c56c0cd Changes.ttl
+SHA1 c41b4939dda7f7030378ce1d594a428560ffc7c3 Changes.xml
 SHA1 0ea2834d37dca1c1739e2afda0f37102103fa4b5 MANIFEST
 SHA1 f5e0e1a1bb5bd5e30043a2123bf757fa648bedf8 MANIFEST.SKIP
-SHA1 2593aec0406fd11b63785793a1d3bae8d4f01343 META.yml
+SHA1 aec308ae6aa7bf55c572c26f429f8e5f878752b0 META.yml
 SHA1 4e274059ea4f41979b6b8f9b658b24cdbd5550ae Makefile.PL
 SHA1 7969355831f711f425236dd2c635b854bfb0876c README
 SHA1 20c73697e1713638140c719d8eaa19a275ed43a5 inc/Module/AutoInstall.pm
@@ -36,17 +36,17 @@ SHA1 a615bb050ca0b2d79bfa0224addcb83019a53b09 inc/Module/Install/ReadmeFromPod.p
 SHA1 5457015ea5a50e93465bf2dafa29feebd547f85b inc/Module/Install/Win32.pm
 SHA1 051e7fa8063908befa3440508d0584a2497b97db inc/Module/Install/WriteAll.pm
 SHA1 1e6399a0585817abef500c34fce676fb9b0545f0 inc/Test/Signature.pm
-SHA1 558ffe7cba9d63eab4b8b3222da963cf6f40e24d lib/RDF/vCard.pm
-SHA1 12b1fd3a700d031dc0528c994ccac13cafd6ea11 lib/RDF/vCard/Entity.pm
-SHA1 d6fd9a01d68dc389e28cc3a6e9af3df9ce76bf7b lib/RDF/vCard/Exporter.pm
-SHA1 c78a8e64d6d4fd723a0c1a78f20e06bb7a5d906f lib/RDF/vCard/Importer.pm
-SHA1 e5ee91993e1745c327970fe6fd01ace644e76d39 lib/RDF/vCard/Line.pm
+SHA1 066c196bb8e42918ab73cc46f2108f1e90fff72d lib/RDF/vCard.pm
+SHA1 c9f6d7b50268bbbeb44eb63a86b87676c923c697 lib/RDF/vCard/Entity.pm
+SHA1 bcbae13779d15e3d266bb4ac32caa7304ad7e48d lib/RDF/vCard/Exporter.pm
+SHA1 8fc6a75e03fdb7b81bda215c77f5dd2af403dffa lib/RDF/vCard/Importer.pm
+SHA1 6e229c95068b4045b26f4e993759732d98981130 lib/RDF/vCard/Line.pm
 SHA1 bb128dce2db8ad397dbeb957d79d084cc5d2391a t/00sig.t
 SHA1 87aa60dd374d9627ee83f929d987483a5503a7e4 t/01basic.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iEYEARECAAYFAk0zIVsACgkQzr+BKGoqfTnTqQCgj/wIuGGmcVuRklM+YD7JJnSt
-4gEAn1bVLn20TcmChCY4pBc8eipVc2sk
-=Opcv
+iEYEARECAAYFAk08r04ACgkQzr+BKGoqfTn6WACcCGo/Hbd+84ksTa4bmJjypAE2
+b+AAn1kRwrZGmR07E1O0mJosRtN4//24
+=ZPev
 -----END PGP SIGNATURE-----

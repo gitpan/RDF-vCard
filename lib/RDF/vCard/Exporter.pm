@@ -18,7 +18,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 
 use namespace::clean;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 our $PRODID  = sprintf("+//IDN cpan.org//NONSGML %s v %s//EN", __PACKAGE__, $VERSION);
 
 our %dispatch = (
@@ -148,43 +148,56 @@ sub export_card
 	return $card;
 }
 
-sub _prop_export_simple
 {
-	my ($self, $model, $triple) = @_;
-	
-	my $prop = 'x-data';
-	if ($triple->predicate->uri =~ m/([^\#\/]+)$/)
-	{
-		$prop = $1;
-	}
-	
-	my $val    = flatten_node($triple->object);
-	my $params = undef;
-	
-	if ($triple->object->is_literal
-	and $triple->object->has_datatype
-	and $triple->object->literal_datatype eq XSD('date'))
-	{
-		$params = { value=>'DATE' };
-	}
-
-	if ($triple->object->is_literal
-	and $triple->object->has_datatype
-	and $triple->object->literal_datatype eq XSD('dateTime'))
-	{
-		$params = { value=>'DATE-TIME' };
-	}
-
-	if ($triple->object->is_resource)
-	{
-		$params = { value=>'URI' };
-	}
-
-	return RDF::vCard::Line->new(
-		property        => $prop,
-		value           => $val,
-		type_parameters => $params,
+	my %dtmap = (
+		XSD('anyURI')        => 'URI',
+		XSD('string')        => 'TEXT',
+		XSD('integer')       => 'INTEGER',
+		XSD('date')          => 'DATE',
+		XSD('dateTime')      => 'DATE-TIME',
+		XSD('duration')      => 'DURATION',
+		'urn:iso:std:iso:8601#timeInterval' => 'PERIOD',
+		XSD('decimal')       => 'FLOAT',
+		# BOOLEAN ?
 		);
+	
+	sub _prop_export_simple
+	{
+		my ($self, $model, $triple) = @_;
+		
+		my $prop = 'x-data';
+		if ($triple->predicate->uri =~ m/([^\#\/]+)$/)
+		{
+			$prop = $1;
+		}
+		
+		my $val    = flatten_node($triple->object);
+		my $params = undef;
+		
+		if ($triple->object->is_literal
+		and $triple->object->has_datatype
+		and defined $dtmap{ $triple->object->literal_datatype })
+		{
+			$params = { value => $dtmap{ $triple->object->literal_datatype } };
+		}
+
+		elsif ($triple->object->is_literal
+		and $triple->object->has_language)
+		{
+			$params = { value=>'TEXT', language=>$triple->object->literal_value_language };
+		}
+
+		elsif ($triple->object->is_resource)
+		{
+			$params = { value=>'URI' };
+		}
+
+		return RDF::vCard::Line->new(
+			property        => $prop,
+			value           => $val,
+			type_parameters => $params,
+			);
+	}
 }
 
 sub _prop_export_adr
@@ -384,6 +397,11 @@ sub _prop_export_typed
 	}
 	$params = undef unless %$params;
 
+	if (uc $prop eq 'TEL')
+	{
+		$params->{'value'} ||= 'PHONE-NUMBER';
+	}
+
 	return RDF::vCard::Line->new(
 		property        => $prop,
 		value           => $value,
@@ -448,10 +466,10 @@ sub _prop_export_binary
 		$line->value->[0] = MIME::Base64::encode_base64($data, '');
 		$line->type_parameters->{value}    = 'BINARY';
 		$line->type_parameters->{encoding} = 'B';
-		if ($medium =~ m'^image/([a-z0-9\_\-\+]+)'i)
-		{
-			$line->type_parameters->{type} = [ uc($1) ];
-		}
+		$line->type_parameters->{type} = [ uc($1) ]
+			if $medium =~ m'^image/([a-z0-9\_\-\+]+)'i;
+		$line->type_parameters->{fmtype} = $medium
+			if $medium =~ m'.+/.+';
 	}
 	
 	return $line;

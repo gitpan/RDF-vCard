@@ -15,7 +15,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 use namespace::clean;
 
 use overload '""' => \&to_string;
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 sub new
 {
@@ -73,7 +73,7 @@ sub to_string
 			my $values = $self->type_parameters->{$parameter};
 			$values = [$values]
 				unless ref $values eq 'ARRAY';
-			my $values_string = join ",", map { $self->_escape_value($_) } @$values;
+			my $values_string = join ",", map { $self->_escape_value($_, is_tp=>1) } @$values;
 			$str .= sprintf(";%s=%s", uc $parameter, $values_string);
 		}
 	}
@@ -118,6 +118,13 @@ sub value_to_string
 sub _escape_value
 {
 	my ($self, $value, %options) = @_;
+	
+	if ($options{is_tp} and $value =~ /[;:,"]/)
+	{
+		$value =~ s/\\/\\\\/g;
+		$value =~ s/\"/\\\"/g;
+		return sprintf('"%s"', $value);
+	}
 	
 	$value =~ s/\\/\\\\/g;
 	
