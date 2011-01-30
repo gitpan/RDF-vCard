@@ -15,7 +15,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 use namespace::clean;
 
 use overload '""' => \&to_string;
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 sub new
 {
@@ -38,6 +38,18 @@ sub value
 {
 	my ($self) = @_;
 	return $self->{value};
+}
+
+sub nvalue
+{
+	my ($self) = @_;
+	my $value = $self->value;
+	my @nvalue;
+	foreach my $v (@$value)
+	{
+		push @nvalue, (ref($v) eq 'ARRAY' ? $v : [$v]);
+	}
+	return \@nvalue;
 }
 
 sub type_parameters
@@ -100,17 +112,8 @@ sub value_to_string
 	my ($self) = @_;	
 	my $str = join ";",
 		map
-		{
-			my $val = $_;
-			if (ref $val eq 'ARRAY')
-			{
-				join ",", map { $self->_escape_value($_) } @$val;
-			}
-			else
-			{
-				$self->_escape_value($val)
-			}
-		} @{ $self->value };
+		{ join ",", map { $self->_escape_value($_) } @{$_}; }
+		@{ $self->nvalue };
 	$str =~ s/;+$//;
 	return $str;
 }
@@ -335,22 +338,13 @@ sub _add_to_model_ADR
 		V('postal-code'),
 		V('country-name'),
 		);
+	my @components = @{ $self->nvalue };
 	
 	for (my $i=0; defined $properties[$i]; $i++)
 	{
-		next unless $self->value->[$i];
-		my @vals;
-		if (ref $self->value->[$i] eq 'ARRAY')
-		{
-			@vals = @{ $self->value->[$i] };
-		}
-		else
-		{
-			@vals = ($self->value->[$i]);
-		}
-		next unless @vals;
+		next unless $components[$i] && @{ $components[$i] };
 		
-		foreach my $v (@vals)
+		foreach my $v (@{ $components[$i] })
 		{
 			$model->add_statement(rdf_statement(
 				$intermediate_node,
@@ -385,28 +379,22 @@ sub _add_to_model_GEO
 		rdf_resource(V('Location')),
 		));
 
+	my @components = @{ $self->nvalue };
+	
 	for (my $i=0; defined $properties[$i]; $i++)
 	{
-		next unless $self->value->[$i];
+		next unless $components[$i] && @{ $components[$i] };
 		
-		if (ref $self->value->[$i] eq 'ARRAY')
+		foreach my $v (@{ $components[$i] })
 		{
 			$model->add_statement(rdf_statement(
 				$intermediate_node,
 				rdf_resource($properties[$i]),
-				rdf_literal($self->value->[$i]->[0]),
-				));
-		}
-		else
-		{
-			$model->add_statement(rdf_statement(
-				$intermediate_node,
-				rdf_resource($properties[$i]),
-				rdf_literal($self->value->[$i]),
+				rdf_literal($v),
 				));
 		}
 	}
-	
+		
 	return $intermediate_node;
 }
 
@@ -435,27 +423,18 @@ sub _add_to_model_N
 		rdf_resource(V('Name')),
 		));
 
+	my @components = @{ $self->nvalue };
+	
 	for (my $i=0; defined $properties[$i]; $i++)
 	{
-		next unless $self->value->[$i];
+		next unless $components[$i] && @{ $components[$i] };
 		
-		if (ref $self->value->[$i] eq 'ARRAY')
-		{
-			foreach my $v (@{ $self->value->[$i] })
-			{
-				$model->add_statement(rdf_statement(
-					$intermediate_node,
-					rdf_resource($properties[$i]),
-					rdf_literal($v),
-					));
-			}
-		}
-		else
+		foreach my $v (@{ $components[$i] })
 		{
 			$model->add_statement(rdf_statement(
 				$intermediate_node,
 				rdf_resource($properties[$i]),
-				rdf_literal($self->value->[$i]),
+				rdf_literal($v),
 				));
 		}
 	}
@@ -468,19 +447,9 @@ sub _add_to_model_ORG
 	my ($self, $model, $card_node) = @_;
 
 	my @units;
-	foreach my $v1 (@{ $self->value })
+	foreach my $v1 (@{ $self->nvalue })
 	{
-		if (ref($v1) eq 'ARRAY')
-		{
-			foreach my $v2 (@$v1)
-			{
-				push @units, $v2;
-			}
-		}
-		else
-		{
-			push @units, $v1;
-		}
+		push @units, @$v1;
 	}
 
 	my $intermediate_node = RDF::Trine::Node::Blank->new;
@@ -585,7 +554,35 @@ order.
 
 =item * C<< value() >>
 
-Returns an arrayref for the value.
+Returns an arrayref for the value. Each item in the arrayref could be a plain scalar,
+or an arrayref of scalars. For example the arrayref representing this name:
+
+  N:Smith;John;Edward,James
+
+which is the vCard representation of somebody with surname Smith, given name
+John and additional names (middle names) Edward and James, might be represented
+with the following "value" arrayref:
+
+  [
+    'Smith',
+    'John',
+    ['Edward', 'James'],
+  ]
+
+or maybe:
+
+  [
+    ['Smith'],
+    'John',
+    ['Edward', 'James'],
+  ]
+
+That's why it's sometimes useful to have a normalised version of it...
+
+=item * C<< nvalue() >>
+
+Returns a normalised version of the arrayref for the value. It will always
+be an arrayref of arrayrefs.
 
 =item * C<< value_node() >>
 
@@ -599,7 +596,7 @@ Formats the line value according to RFC 2425 and RFC 2426.
 
 =item * C<< type_parameters() >>
 
-Returns the type_parameters hashref.
+Returns the type_parameters hashref. Here be monsters (kinda).
 
 =back
 

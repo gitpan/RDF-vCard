@@ -1,59 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rdf:RDF xmlns:dbug="http://ontologi.es/doap-bugs#" xmlns:dc="http://purl.org/dc/terms/" xmlns:dcs="http://ontologi.es/doap-changeset#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r0">
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r1"/>
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r2"/>
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r3"/>
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r4"/>
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r5"/>
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r6"/>
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r0">
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r1"/>
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r2"/>
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r3"/>
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r4"/>
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r5"/>
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r6"/>
 	<dcs:versus rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-001"/>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r1">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r1">
 	<rdfs:label xml:lang="en">Proper support for vCard CATEGORIES property.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r10">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r10">
 	<rdf:type rdf:resource="http://ontologi.es/doap-changeset#Addition"/>
 	<rdfs:label xml:lang="en">RDF::vCard::Line now has an add_to_model() method.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r11">
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r12"/>
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r11">
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r12"/>
 	<dcs:versus rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-003"/>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r12">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r12">
 	<rdfs:label xml:lang="en">More flexibility for other classes wanting to subclass this - particularly around different datatypes.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r13">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r13">
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r14"/>
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r15"/>
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r16"/>
+	<dcs:versus rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-004"/>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r14">
+	<rdf:type rdf:resource="http://ontologi.es/doap-changeset#Addition"/>
+	<rdfs:label xml:lang="en">nvalue method on RDF::vCard::Line.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r15">
+	<rdf:type rdf:resource="http://ontologi.es/doap-changeset#Addition"/>
+	<rdfs:label xml:lang="en">Experimental vCard XML support.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r16">
+	<rdf:type rdf:resource="http://ontologi.es/doap-changeset#Addition"/>
+	<rdfs:label xml:lang="en">Partial vCard 4.0 support.</rdfs:label>
+</rdf:Description>
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r17">
 	<doap:browse rdf:resource="http://goddamn.co.uk/viewvc/perlmods/RDF-vCard/"/>
 	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#SVNRepository"/>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r2">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r2">
 	<rdfs:label xml:lang="en">Support for RDF vCard 2006 v:homeTel property and its ilk.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r3">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r3">
 	<rdfs:label xml:lang="en">Improved support for 'data:' URIs in binary vCard properties.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r4">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r4">
 	<rdf:type rdf:resource="http://ontologi.es/doap-changeset#Addition"/>
 	<rdfs:label xml:lang="en">Include vCard VERSION property in output.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r5">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r5">
 	<rdfs:label xml:lang="en">Tidied up export_card method.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r6">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r6">
 	<rdfs:label xml:lang="en">More consistent support for comma-escaping.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r7">
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r10"/>
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r8"/>
-	<dcs:item rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r9"/>
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r7">
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r10"/>
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r8"/>
+	<dcs:item rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r9"/>
 	<dcs:versus rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-002"/>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r8">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r8">
 	<rdf:type rdf:resource="http://ontologi.es/doap-changeset#Addition"/>
 	<rdfs:label xml:lang="en">Add RDF::vCard::Importer module.</rdfs:label>
 </rdf:Description>
-<rdf:Description rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r9">
+<rdf:Description rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r9">
 	<rdf:type rdf:resource="http://ontologi.es/doap-changeset#Addition"/>
 	<rdfs:label xml:lang="en">RDF::vCard::Entity now has add_to_model() and node() methods.</rdfs:label>
 </rdf:Description>
@@ -78,7 +96,8 @@
 	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-002"/>
 	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-003"/>
 	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-004"/>
-	<doap:repository rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r13"/>
+	<doap:release rdf:resource="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-005"/>
+	<doap:repository rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r17"/>
 	<doap:shortdesc xml:lang="en">convert between RDF and vCard</doap:shortdesc>
 	<doap:tester rdf:resource="http://tobyinkster.co.uk/#i"/>
 	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Project"/>
@@ -91,14 +110,14 @@
 	<rdfs:label xml:lang="en">Initial release. RDF to vCard only.</rdfs:label>
 </rdf:Description>
 <rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-002">
-	<dcs:changeset rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r0"/>
+	<dcs:changeset rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r0"/>
 	<dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2011-01-12</dc:issued>
 	<doap:file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.002.tar.gz"/>
 	<doap:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.002</doap:revision>
 	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Version"/>
 </rdf:Description>
 <rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-003">
-	<dcs:changeset rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r7"/>
+	<dcs:changeset rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r7"/>
 	<dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2011-01-16</dc:issued>
 	<doap:file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.003.tar.gz"/>
 	<doap:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.003</doap:revision>
@@ -106,10 +125,17 @@
 	<rdfs:label xml:lang="en">Two-way conversions.</rdfs:label>
 </rdf:Description>
 <rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-004">
-	<dcs:changeset rdf:nodeID="r4E05D784274211E0B515C87A9A9C27F4r11"/>
+	<dcs:changeset rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r11"/>
 	<dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2011-01-23</dc:issued>
 	<doap:file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.004.tar.gz"/>
 	<doap:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.004</doap:revision>
+	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Version"/>
+</rdf:Description>
+<rdf:Description rdf:about="http://purl.org/NET/cpan-uri/dist/RDF-vCard/v_0-005">
+	<dcs:changeset rdf:nodeID="r86B7D9DE2CC311E0846996166B13DF01r13"/>
+	<dc:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2011-01-30</dc:issued>
+	<doap:file-release rdf:resource="http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.005.tar.gz"/>
+	<doap:revision rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.005</doap:revision>
 	<rdf:type rdf:resource="http://usefulinc.com/ns/doap#Version"/>
 </rdf:Description>
 <rdf:Description xmlns:ns1="http://www.w3.org/2002/07/owl#" rdf:about="http://tobyinkster.co.uk/#i">

@@ -30,6 +30,11 @@ DESCRIPTION
     An RDF::vCard::Entity objects is an individual vCard. It overloads
     stringification, so just treat it like a string.
 
+  RDF::vCard::Entity::WithXmlSupport
+    RDF::vCard::Entity::WithXmlSupport is a subclass of RDF::vCard::Entity,
+    with a "to_xml" method. It requires XML::LibXML to be installed and
+    working. The importer and exporter will try to create these if possible.
+
   RDF::vCard::Line
     RDF::vCard::Line is internal fu that you probably don't want to touch.
 

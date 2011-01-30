@@ -19,6 +19,7 @@ keywords:
   - Directory
   - Contacts
   - hCard
+  - XML
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -28,6 +29,8 @@ no_index:
   directory:
     - inc
     - t
+recommends:
+  XML::LibXML: 1.60
 requires:
   MIME::Base64: 0
   RDF::Trine: 0.130
@@ -43,4 +46,4 @@ resources:
   homepage: http://search.cpan.org/dist/RDF-vCard/
   license: http://dev.perl.org/licenses/
   repository: http://goddamn.co.uk/viewvc/perlmods/RDF-vCard/
-version: 0.004
+version: 0.005

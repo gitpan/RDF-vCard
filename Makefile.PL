@@ -15,6 +15,7 @@ author              'Toby Inkster <tobyink@cpan.org>';
 license             'perl';
 
 requires            'common::sense'       => 0;
+recommends          'XML::LibXML'         => '1.60';
 requires            'MIME::Base64'        => 0;
 test_requires       'Module::Signature'   => '0.66';
 requires            'namespace::clean'    => 0;
@@ -31,7 +32,7 @@ resources(
 	'bugtracker' => "http://rt.cpan.org/Dist/Display.html?Queue=$dist",
 	);
 
-keywords(qw(RDF Semantic Web SemWeb vCard Directory Contacts hCard));
+keywords(qw(RDF Semantic Web SemWeb vCard Directory Contacts hCard XML));
 	
 write_doap_changes;
 write_doap_changes_xml;

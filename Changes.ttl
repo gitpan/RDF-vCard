@@ -69,6 +69,19 @@ my:v_0-004
 		dcs:item   [ rdfs:label "More flexibility for other classes wanting to subclass this - particularly around different datatypes."@en ]
 		] .
 
+my:v_0-005
+
+	a               :Version ;
+	dc:issued       "2011-01-30"^^xsd:date ;
+	:revision       "0.005"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.005.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-004 ;
+		dcs:item   [ rdfs:label "nvalue method on RDF::vCard::Line."@en ; a dcs:Addition ] ;
+		dcs:item   [ rdfs:label "Experimental vCard XML support."@en ; a dcs:Addition ] ;
+		dcs:item   [ rdfs:label "Partial vCard 4.0 support."@en ; a dcs:Addition ]
+		] .
+
 #############################################################
 
 my:project
@@ -87,7 +100,7 @@ my:project
 	:tester         toby:i ;
 	:created        "2011-01-05"^^xsd:date ;
 	:license        <http://dev.perl.org/licenses/> ;
-	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 .
+	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 , my:v_0-005 .
 
 #############################################################
 

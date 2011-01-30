@@ -18,7 +18,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 
 use namespace::clean;
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 our $PRODID  = sprintf("+//IDN cpan.org//NONSGML %s v %s//EN", __PACKAGE__, $VERSION);
 
 our %dispatch = (
@@ -55,6 +55,18 @@ sub new
 	bless { %options }, $class;
 }
 
+sub is_v4
+{
+	my ($self) = @_;
+	return ($self->{vcard_version}) ? 4 : 0;
+}
+
+sub is_v3
+{
+	my ($self) = @_;
+	return $self->is_v4 ? 0 : 3;
+}
+
 sub export_cards
 {
 	my ($self, $model, %options) = @_;
@@ -85,7 +97,7 @@ sub export_card
 	$model = RDF::TrineShortcuts::rdf_parse($model)
 		unless blessed($model) && $model->isa('RDF::Trine::Model');
 	
-	my $card = RDF::vCard::Entity->new( profile=>'VCARD' );
+	my $card = RDF::vCard->new_entity( profile=>'VCARD' );
 	
 	my %categories;
 	my $triples = $model->get_statements($subject, undef, undef);
@@ -126,7 +138,7 @@ sub export_card
 	$card->add(
 		RDF::vCard::Line->new(
 			property        => 'version',
-			value           => '3.0',
+			value           => $self->is_v4 ? '4.0' : '3.0',
 			)
 		);
 		
@@ -236,7 +248,24 @@ sub _prop_export_adr
 	delete $types->{ADDRESS};
 	delete $types->{LABEL};
 	
-	if (%$types)
+	my @geos;
+	my $iter = $model->get_statements($triple->object, rdf_resource(VX('geo')), undef);
+	while (my $st = $iter->next)
+	{
+		my $gline = $self->_prop_export_geo($model, $st);
+		push @geos, $gline->_unescape_value($gline->value_to_string);
+	}
+	if (@geos)
+	{
+		$params->{geo} = \@geos;
+	}
+	
+	if (%$types and $self->is_v4)
+	{
+		$params->{type} = [sort grep { !/^pref$/i } keys %$types];
+		$params->{pref} = 1 if $types->{PREF};
+	}
+	elsif (%$types)
 	{
 		$params->{type} = [sort keys %$types];
 	}
@@ -318,10 +347,22 @@ sub _prop_export_geo
 		push @$g, ($values[0] || '');
 	}
 	
-	return RDF::vCard::Line->new(
-		property => 'geo',
-		value    => $g,
-		);
+	if ($self->is_v4)
+	{
+		return RDF::vCard::Line->new(
+			property => 'geo',
+			value    => sprintf('geo:%f,%f', @$g),
+			type_parameters => { value=>'URI' },
+			);
+	}
+	else
+	{
+		return RDF::vCard::Line->new(
+			property => 'geo',
+			value    => $g,
+			type_parameters => { value=>'TEXT' },
+			);
+	}
 }
 
 # tel, email, label and impp may be typed
@@ -359,7 +400,14 @@ sub _prop_export_typed
 	}
 	elsif ($prop eq 'tel' and $value =~ /^(tel|fax|modem):(.+)$/i)
 	{
-		$value = $2;
+		if ($self->is_v4) #v4 telephone numbers are URIs
+		{
+			$params = { value=>'URI' };
+		}
+		else #v3 telephone numbers are text (well VALUE=PHONE-NUMBER technically)
+		{
+			$value = $2;
+		}
 		$types->{FAX}   = 1 if lc $1 eq 'fax';
 		$types->{MODEM} = 1 if lc $1 eq 'modem';
 	}
@@ -391,15 +439,27 @@ sub _prop_export_typed
 	delete $types->{ADDRESS};
 	delete $types->{LABEL};
 	
-	if (%$types)
+	if (%$types and $self->is_v4)
+	{
+		$params->{type} = [sort grep { !/^pref$/i } keys %$types];
+		$params->{pref} = 1 if $types->{PREF};
+	}
+	elsif (%$types)
 	{
 		$params->{type} = [sort keys %$types];
 	}
 	$params = undef unless %$params;
 
-	if (uc $prop eq 'TEL')
+	if ($prop eq 'tel')
 	{
 		$params->{'value'} ||= 'PHONE-NUMBER';
+		
+		if ($self->is_v4 and $params->{'value'} ne 'URI' and $value =~ /^\+[0-9\s\-]+$/)
+		{
+			$value =~ s/\s/-/g;
+			$value = "tel:${value}";
+			$params->{'value'} = 'URI';
+		}
 	}
 
 	return RDF::vCard::Line->new(
@@ -457,7 +517,7 @@ sub _prop_export_binary
 	my ($self, $model, $triple) = @_;
 	my $line = $self->_prop_export_simple($model, $triple);
 	
-	if ($line->value->[0] =~ /^data:\S+$/)
+	if ($self->is_v3 and $line->value->[0] =~ /^data:\S+$/)
 	{
 		my $data_uri = URI->new( $line->value->[0] );
 		my $data     = $data_uri->data;
@@ -520,7 +580,7 @@ RDF::vCard::Exporter - export RDF data to vCard format
  use RDF::vCard;
  
  my $input    = "http://example.com/contact-data.rdf";
- my $exporter = RDF::vCard::Exporter->new;
+ my $exporter = RDF::vCard::Exporter->new(vcard_version => 3);
  
  print $_ foreach $exporter->export_cards($input);
 
@@ -536,8 +596,16 @@ This module reads RDF and writes vCards.
 
 Returns a new RDF::vCard::Exporter object.
 
-There are no valid options at the moment - the hash is reserved
-for future use.
+Options:
+
+=over
+
+=item * B<vcard_version> - '3' or '4'. This module will happily use
+vCard 3.0 constructs in vCard 4.0 and vice versa. But in certain places
+it can lean one way or the other. This option allows you to influence
+that.
+
+=back
 
 =back
 
@@ -610,8 +678,10 @@ In the face of weird input data though, (e.g. an FN property that is a
 URI instead of a literal) it can pretty easily descend into exporting
 junk, non-compliant vCards.
 
-There is support for a smattering of vCard 4.0 features such as the
-IMPP and KIND properties.
+Many vCard 4.0 properties, such as the IMPP and KIND, are also supported.
+
+The B<vcard_version> constructor option allows you to influence how some
+properties like GEO and TEL (which differ between 3.0 and 4.0) are output.
 
 =head1 SEE ALSO
 

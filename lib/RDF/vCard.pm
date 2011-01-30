@@ -2,10 +2,26 @@ package RDF::vCard;
 
 use 5.008;
 use common::sense;
+
+use RDF::vCard::Entity;
 use RDF::vCard::Exporter;
 use RDF::vCard::Importer;
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
+
+our $WITH_XML;
+BEGIN {
+	local $@ = undef;
+	eval 'use RDF::vCard::Entity::WithXmlSupport;';
+	$WITH_XML = !$@;
+}
+
+sub new_entity
+{
+	my ($class, @params) = @_;
+	$class .= ($WITH_XML ? '::Entity::WithXmlSupport' : '::Entity');
+	return $class->new(@params);
+}
 
 1;
 
@@ -48,6 +64,12 @@ L<RDF::vCard::Importer> does the reverse.
 
 An L<RDF::vCard::Entity> objects is an individual vCard. It overloads
 stringification, so just treat it like a string.
+
+=head2 RDF::vCard::Entity::WithXmlSupport
+
+L<RDF::vCard::Entity::WithXmlSupport> is a subclass of L<RDF::vCard::Entity>,
+with a C<to_xml> method. It requires L<XML::LibXML> to be installed and
+working. The importer and exporter will try to create these if possible.
 
 =head2 RDF::vCard::Line
 

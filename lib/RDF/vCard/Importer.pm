@@ -10,7 +10,7 @@ use Text::vFile::asData;
 
 use namespace::clean;
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 sub new
 {
@@ -89,7 +89,7 @@ sub process
 sub _process_card
 {
 	my ($self, $card) = @_;
-	my $C = RDF::vCard::Entity->new( profile => $card->{type} );
+	my $C = RDF::vCard->new_entity( profile => $card->{type} );
 	
 	while (my ($prop, $vals) = each %{ $card->{properties} })
 	{

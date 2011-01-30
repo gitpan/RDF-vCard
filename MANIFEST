@@ -27,6 +27,7 @@ inc/Module/Install/WriteAll.pm
 inc/Test/Signature.pm
 
 lib/RDF/vCard/Entity.pm
+lib/RDF/vCard/Entity/WithXmlSupport.pm
 lib/RDF/vCard/Exporter.pm
 lib/RDF/vCard/Importer.pm
 lib/RDF/vCard/Line.pm
