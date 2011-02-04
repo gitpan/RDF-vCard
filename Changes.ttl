@@ -82,6 +82,17 @@ my:v_0-005
 		dcs:item   [ rdfs:label "Partial vCard 4.0 support."@en ; a dcs:Addition ]
 		] .
 
+my:v_0-006
+
+	a               :Version ;
+	dc:issued       "2011-02-04"^^xsd:date ;
+	:revision       "0.006"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.006.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-005 ;
+		dcs:item   [ rdfs:label "Fix WithXmlSupport's string overloading."@en ; a dcs:Bugfix ]
+		] .
+
 #############################################################
 
 my:project
@@ -100,7 +111,7 @@ my:project
 	:tester         toby:i ;
 	:created        "2011-01-05"^^xsd:date ;
 	:license        <http://dev.perl.org/licenses/> ;
-	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 , my:v_0-005 .
+	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 , my:v_0-005 , my:v_0-006 .
 
 #############################################################
 

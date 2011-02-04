@@ -10,8 +10,7 @@ use XML::LibXML;
 
 use namespace::clean;
 
-use overload '""' => \&to_string;
-our $VERSION = '0.005';
+our $VERSION = '0.006';
 
 sub promote
 {
