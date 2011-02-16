@@ -3,6 +3,7 @@ package RDF::vCard::Importer;
 use 5.008;
 use common::sense;
 
+use Encode qw[];
 use RDF::TrineShortcuts ':all';
 use RDF::vCard::Entity;
 use RDF::vCard::Line;
@@ -10,7 +11,7 @@ use Text::vFile::asData;
 
 use namespace::clean;
 
-our $VERSION = '0.006';
+our $VERSION = '0.007';
 
 sub new
 {
@@ -45,7 +46,7 @@ sub ua
 sub import_file
 {
 	my ($self, $file) = @_;
-	open my $fh, $file;
+	open my $fh, "<:encoding(UTF-8)", $file;
 	my $cards = Text::vFile::asData->new->parse($fh);
 	close $fh;
 	return $self->process($cards);
@@ -69,7 +70,8 @@ sub import_url
 sub import_string
 {
 	my ($self, $data) = @_;
-	my $cards = Text::vFile::asData->new->parse_lines(split /\r?\n/, $data);
+	my @lines = split /\r?\n/, $data;
+	my $cards = Text::vFile::asData->new->parse_lines(@lines);
 	return $self->process($cards);
 }
 
@@ -102,10 +104,12 @@ sub _process_card
 		
 		foreach my $val (@$vals)
 		{
+			my $strval = $val->{value};
+			
 			# I wish Text::vFile::asData did this for me!
 			my $structured_value = ($prop =~ /^(ADR|CATEGORIES|GEO|N|ORG)$/i)
-				? $self->_extract_structure($val->{value})
-				: RDF::vCard::Line->_unescape_value($val->{value});
+				? $self->_extract_structure($strval)
+				: RDF::vCard::Line->_unescape_value($strval);
 			# Could technically extract structure for all properties,
 			# but it's a waste of time, and some of the RDF::vCard::Line
 			# code might cope badly.
@@ -117,7 +121,7 @@ sub _process_card
 				);
 			$L->type_parameters->{TYPE} = [split /,/, $L->type_parameters->{TYPE}]
 				if ($L->type_parameters and $L->type_parameters->{TYPE});
-			$L->type_parameters->{VCARD4_GROUP} = $group
+			$L->type_parameters->{_GROUP} = $group
 				if $group;
 			
 			$C->add($L);

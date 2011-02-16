@@ -18,7 +18,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 
 use namespace::clean;
 
-our $VERSION = '0.006';
+our $VERSION = '0.007';
 our $PRODID  = sprintf("+//IDN cpan.org//NONSGML %s v %s//EN", __PACKAGE__, $VERSION);
 
 our %dispatch = (
@@ -58,7 +58,7 @@ sub new
 sub is_v4
 {
 	my ($self) = @_;
-	return ($self->{vcard_version}) ? 4 : 0;
+	return ($self->{vcard_version} =~ /4/) ? 4 : 0;
 }
 
 sub is_v3

@@ -32,6 +32,7 @@ no_index:
 recommends:
   XML::LibXML: 1.60
 requires:
+  Encode: 0
   MIME::Base64: 0
   RDF::Trine: 0.130
   RDF::TrineShortcuts: 0.100
@@ -46,4 +47,4 @@ resources:
   homepage: http://search.cpan.org/dist/RDF-vCard/
   license: http://dev.perl.org/licenses/
   repository: http://goddamn.co.uk/viewvc/perlmods/RDF-vCard/
-version: 0.006
+version: 0.007

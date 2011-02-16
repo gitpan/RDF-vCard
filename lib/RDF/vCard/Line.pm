@@ -3,6 +3,7 @@ package RDF::vCard::Line;
 use 5.008;
 use common::sense;
 
+use Encode;
 use MIME::Base64;
 use RDF::TrineShortcuts ':all';
 use URI::data;
@@ -15,7 +16,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 use namespace::clean;
 
 use overload '""' => \&to_string;
-our $VERSION = '0.006';
+our $VERSION = '0.007';
 
 sub new
 {
@@ -582,7 +583,13 @@ That's why it's sometimes useful to have a normalised version of it...
 =item * C<< nvalue() >>
 
 Returns a normalised version of the arrayref for the value. It will always
-be an arrayref of arrayrefs.
+be an arrayref of arrayrefs. For example:
+
+  [
+    ['Smith'],
+    ['John'],
+    ['Edward', 'James'],
+  ]
 
 =item * C<< value_node() >>
 

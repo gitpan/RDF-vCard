@@ -50,6 +50,8 @@ SEE ALSO
 
     <http://perlrdf.org/>.
 
+    RDF::vCard::Babelfish.
+
 AUTHOR
     Toby Inkster <tobyink@cpan.org>.
 

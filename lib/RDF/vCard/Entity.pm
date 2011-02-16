@@ -3,6 +3,7 @@ package RDF::vCard::Entity;
 use 5.008;
 use common::sense;
 
+use JSON qw[];
 use RDF::TrineShortcuts ':all';
 
 sub V    { return 'http://www.w3.org/2006/vcard/ns#' . shift; }
@@ -13,7 +14,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 use namespace::clean;
 
 use overload '""' => \&to_string;
-our $VERSION = '0.006';
+our $VERSION = '0.007';
 
 sub new
 {
@@ -161,6 +162,109 @@ sub add_to_model
 	return $self;
 }
 
+sub to_jcard
+{
+	my ($self, $hashref) = @_;
+	return ($hashref ? $self->TO_JSON : JSON::to_json($self));
+}
+
+{
+	my @singular = qw(fn n bday tz geo sort-string uid class rev
+		anniversary birth dday death gender kind prodid sex version);
+	my @typed = qw(email tel adr label impp);
+	
+	sub TO_JSON
+	{
+		my ($self) = @_;
+		my $object = {};
+		
+		foreach my $line (@{ $self->lines })
+		{
+			my $p = lc $line->property;
+			
+			if ($p eq 'n')
+			{
+				my $o;
+				my @sp = qw(family-name given-name additional-name
+					honorific-prefix honorific-suffix);
+				for my $i (0..4)
+				{
+					if ($line->nvalue->[$i] and @{$line->nvalue->[$i]})
+					{
+						$o->{ $sp[$i] } = [ @{$line->nvalue->[$i]} ];
+					}
+				}
+				push @{$object->{n}}, $o;
+			}
+			elsif ($p eq 'org')
+			{
+				my @components = map { $_->[0] } @{$line->nvalue};
+				my $o = { 'organization-name' => shift @components };
+				$o->{'organization-unit'} = \@components;
+				push @{$object->{n}}, $o;
+			}
+			elsif ($p eq 'adr')
+			{
+				my $o;
+				while (my ($k, $v) = each %{$line->type_parameters})
+				{
+					push @{$o->{$k}}, (ref $v eq 'ARRAY' ? @$v : $v);
+				}
+				if ($o->{type})
+				{
+					$o->{type} = [ sort map {lc $_} @{ $o->{type} } ]
+				}
+				my @sp = qw(post-office-box extended-address street-address
+					locality region country-name postal-code);
+				for my $i (0..6)
+				{
+					if ($line->nvalue->[$i] and @{$line->nvalue->[$i]})
+					{
+						$o->{ $sp[$i] } = [ @{$line->nvalue->[$i]} ];
+					}
+				}
+				push @{$object->{adr}}, $o;
+			}
+			elsif ($p eq 'categories')
+			{
+				push @{$object->{categories}}, '@@TODO';
+			}
+			elsif ($p eq 'geo')
+			{
+				$object->{geo} = {
+					latitude   => $line->nvalue->[0][0],
+					longitude  => $line->nvalue->[1][0],
+					};
+			}
+			elsif (grep { $_ eq $p } @typed)
+			{
+				my $o = {};
+				while (my ($k, $v) = each %{$line->type_parameters})
+				{
+					push @{$o->{$k}}, (ref $v eq 'ARRAY' ? @$v : $v);
+				}
+				$o->{value} = $line->nvalue->[0][0];
+				if ($o->{type})
+				{
+					$o->{type} = [ sort map {lc $_} @{ $o->{type} } ]
+				}
+				
+				push @{ $object->{$p} }, $o;
+			}
+			elsif (grep { $_ eq $p } @singular)
+			{
+				$object->{$p} ||= $line->nvalue->[0][0];
+			}
+			else
+			{
+				push @{ $object->{$p} }, $line->nvalue->[0][0];
+			}
+		}
+		
+		return $object;
+	}
+}
+
 1;
 
 __END__
@@ -200,6 +304,12 @@ RDF::vCard::Entity overloads stringification, so you can do the following:
 =item * C<< to_string() >>
 
 Formats the object according to RFC 2425 and RFC 2426.
+
+=item * C<< to_jcard() >>
+
+Formats the object according to L<http://microformats.org/wiki/jcard>.
+
+C<< to_jcard(1) >> will return the same data but without the JSON stringification.
 
 =item * C<< add_to_model($model) >>
 

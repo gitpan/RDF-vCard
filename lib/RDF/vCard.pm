@@ -7,7 +7,7 @@ use RDF::vCard::Entity;
 use RDF::vCard::Exporter;
 use RDF::vCard::Importer;
 
-our $VERSION = '0.006';
+our $VERSION = '0.007';
 
 our $WITH_XML;
 BEGIN {
@@ -88,6 +88,8 @@ L<https://rt.cpan.org/Public/Dist/Display.html?Name=RDF-vCard>.
 L<http://www.w3.org/Submission/vcard-rdf/>.
 
 L<http://perlrdf.org/>.
+
+L<RDF::vCard::Babelfish>.
 
 =head1 AUTHOR
 

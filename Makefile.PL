@@ -15,6 +15,7 @@ author              'Toby Inkster <tobyink@cpan.org>';
 license             'perl';
 
 requires            'common::sense'       => 0;
+requires            'Encode'              => 0;
 recommends          'XML::LibXML'         => '1.60';
 requires            'MIME::Base64'        => 0;
 test_requires       'Module::Signature'   => '0.66';

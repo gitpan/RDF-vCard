@@ -93,6 +93,18 @@ my:v_0-006
 		dcs:item   [ rdfs:label "Fix WithXmlSupport's string overloading."@en ; a dcs:Bugfix ]
 		] .
 
+my:v_0-007
+
+	a               :Version ;
+	dc:issued       "2011-02-16"^^xsd:date ;
+	:revision       "0.007"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.007.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-006 ;
+		dcs:item   [ rdfs:label "Setting vcard_version to 3 outputted version 4 vcards."@en ; a dcs:Bugfix ] ;
+		dcs:item   [ rdfs:label "jCard output."@en ; a dcs:Addition ]
+		] .
+
 #############################################################
 
 my:project
@@ -111,7 +123,7 @@ my:project
 	:tester         toby:i ;
 	:created        "2011-01-05"^^xsd:date ;
 	:license        <http://dev.perl.org/licenses/> ;
-	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 , my:v_0-005 , my:v_0-006 .
+	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 , my:v_0-005 , my:v_0-006 , my:v_0-007 .
 
 #############################################################
 
