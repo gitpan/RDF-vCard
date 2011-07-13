@@ -18,7 +18,6 @@ requires            'common::sense'       => 0;
 requires            'Encode'              => 0;
 recommends          'XML::LibXML'         => '1.60';
 requires            'MIME::Base64'        => 0;
-test_requires       'Module::Signature'   => '0.66';
 requires            'namespace::clean'    => 0;
 requires            'RDF::Trine'          => '0.130';
 requires            'RDF::TrineShortcuts' => '0.100';
@@ -34,11 +33,13 @@ resources(
 	);
 
 keywords(qw(RDF Semantic Web SemWeb vCard Directory Contacts hCard XML));
-	
+
+install_script 'vcard2rdf';
+install_script 'vcard2xml';
+
 write_doap_changes;
 write_doap_changes_xml;
 
-include 'Test::Signature';
 auto_install;
 WriteAll(
 	'meta' => 1,

@@ -14,40 +14,42 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 1701c0c41062f4b0db0ef79e11cb92a7b5ff47d8 Changes
-SHA1 48a1c9e9dc5418de70b42e98090e4fc1b321dff2 Changes.ttl
-SHA1 a9c20090ca1b1df9adfd29f852ba53be91a0c778 Changes.xml
-SHA1 ef5451c7828aa7b2bf8bdc636157b728d149bfbb MANIFEST
-SHA1 f5e0e1a1bb5bd5e30043a2123bf757fa648bedf8 MANIFEST.SKIP
-SHA1 8ba43ec10048c5b7d25b8816629f08e6cc2e1e7c META.yml
-SHA1 13dfd42acfad6f723897221ca5100311dba224d5 Makefile.PL
+SHA1 8cdd879e29ed46d932fa55e2dfe62e229a3782bc Changes
+SHA1 23dd64ba5479719e9db69efb5122bcc770f94559 Changes.ttl
+SHA1 1d65f01e5f4f3eeeeec79897eedbc783a979009a Changes.xml
+SHA1 97c636e1fb5b970de3a18e5e916e4e6dfbbac68f MANIFEST
+SHA1 ddf82df58727a9a2d37c7810b348184462234d54 MANIFEST.SKIP
+SHA1 255a62ab1740d2c08dea84dcd2dd56699dce8834 META.yml
+SHA1 b24affae93a541269ca43f6fdc58f0f690aeb596 Makefile.PL
 SHA1 737527638dbf0f1eeff96ada9072cb6693114d4c README
+SHA1 0d699c262e7efde641bd336a027bb0a07183c9f0 TODO
 SHA1 20c73697e1713638140c719d8eaa19a275ed43a5 inc/Module/AutoInstall.pm
 SHA1 7305dbe2904416e28decb05396988a5d51d578be inc/Module/Install.pm
 SHA1 ca13d9875e1249f6e84f7070be8152c34837955e inc/Module/Install/AutoInstall.pm
 SHA1 129960509127732258570c122042bc48615222e1 inc/Module/Install/Base.pm
 SHA1 cf3356ed9a5bd2f732527ef9e7bc5ef4458c8a93 inc/Module/Install/Can.pm
-SHA1 de189984fc99741cc060d1964f513e45bf6d5c74 inc/Module/Install/DOAPChangeSets.pm
+SHA1 986dcb1f1b6a1fde7c51f1558b93368e2429caa2 inc/Module/Install/DOAPChangeSets.pm
 SHA1 bf0a3e1977effc2832d7a813a76dce3f31b437b6 inc/Module/Install/Fetch.pm
 SHA1 b501b0df59a5cd235cca473889f82c3d3429f39e inc/Module/Install/Include.pm
 SHA1 b721c93ca5bc9a6aa863b49af15f1b1de6125935 inc/Module/Install/Makefile.pm
 SHA1 026cc0551a0ad399d195e395b46bdf842e115192 inc/Module/Install/Metadata.pm
 SHA1 a615bb050ca0b2d79bfa0224addcb83019a53b09 inc/Module/Install/ReadmeFromPod.pm
+SHA1 d3a4c720c6ec7f8fce7df37002fbc9177fb77050 inc/Module/Install/Scripts.pm
 SHA1 5457015ea5a50e93465bf2dafa29feebd547f85b inc/Module/Install/Win32.pm
 SHA1 051e7fa8063908befa3440508d0584a2497b97db inc/Module/Install/WriteAll.pm
-SHA1 1e6399a0585817abef500c34fce676fb9b0545f0 inc/Test/Signature.pm
-SHA1 9e57f2b694e983dcc96013f088a49803f9835367 lib/RDF/vCard.pm
-SHA1 2058e40af2a4352d7f13b2971bbf1ba1cfd09c89 lib/RDF/vCard/Entity.pm
-SHA1 5d8f2a269b2b3808fe49f6093a2e6791d4a75662 lib/RDF/vCard/Entity/WithXmlSupport.pm
-SHA1 3cd25c247f8353fbdd35fb13165c17c67fce42ae lib/RDF/vCard/Exporter.pm
-SHA1 27ae07e3b001c3ee351f15611db81fd391f4a868 lib/RDF/vCard/Importer.pm
-SHA1 6e633dbad8a8c40ecb219ebfb9ab12eb3b741cb3 lib/RDF/vCard/Line.pm
-SHA1 bb128dce2db8ad397dbeb957d79d084cc5d2391a t/00sig.t
+SHA1 24bd39be12fb1c13ee3154d552a135230530d05d lib/RDF/vCard.pm
+SHA1 c456faa5f8a7a62862deec5ec6da61768271558d lib/RDF/vCard/Entity.pm
+SHA1 86235a7ccfd4aba01c96fd01319f94606a33fd91 lib/RDF/vCard/Entity/WithXmlSupport.pm
+SHA1 4255f4acd14870e63a39fa6c1e448a733e117ee2 lib/RDF/vCard/Exporter.pm
+SHA1 32f3d62ad62f6f2d809233c0281dc1a79547f5ec lib/RDF/vCard/Importer.pm
+SHA1 9a73512240119e451a8be1db5123b45068b0e08f lib/RDF/vCard/Line.pm
+SHA1 0926bce06bccb7c038d7a2af4b3572b957789a75 script/vcard2rdf
+SHA1 4c78b0f3419a570c8519340f7f93bb4ab10ada33 script/vcard2xml
 SHA1 87aa60dd374d9627ee83f929d987483a5503a7e4 t/01basic.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iEYEARECAAYFAk1cWCwACgkQzr+BKGoqfTkZnwCfQs6u3FWBrbAjawgj6UCSYfX+
-lLcAnjJBRToKp7rlcDRbsaRv+Fk95S8i
-=sSSA
+iEYEARECAAYFAk4dYwoACgkQzr+BKGoqfTk8UgCeJ7ki4OZ/3mnN+zuoW3oMmqWj
+cSkAoIfPCztB+apMzieoMht33AkUGDax
+=wBPh
 -----END PGP SIGNATURE-----

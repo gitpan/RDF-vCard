@@ -14,7 +14,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 use namespace::clean;
 
 use overload '""' => \&to_string;
-our $VERSION = '0.007';
+our $VERSION = '0.008';
 
 sub new
 {

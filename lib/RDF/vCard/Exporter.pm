@@ -18,7 +18,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 
 use namespace::clean;
 
-our $VERSION = '0.007';
+our $VERSION = '0.008';
 our $PRODID  = sprintf("+//IDN cpan.org//NONSGML %s v %s//EN", __PACKAGE__, $VERSION);
 
 our %dispatch = (

@@ -105,6 +105,20 @@ my:v_0-007
 		dcs:item   [ rdfs:label "jCard output."@en ; a dcs:Addition ]
 		] .
 
+my:v_0-008
+
+	a               :Version ;
+	dc:issued       "2011-07-13"^^xsd:date ;
+	:revision       "0.008"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.008.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-007 ;
+		dcs:item   [ rdfs:label "vcard2rdf script."@en ; a dcs:Addition ] ;
+		dcs:item   [ rdfs:label "Add support for 'lang' option when converting vCards to RDF."@en ; a dcs:Addition ] ;
+		dcs:item   [ rdfs:label "Include language tags on plain literals, if provided."@en ; a dcs:Addition ] ;
+		dcs:item   [ rdfs:label "Use Content-Language HTTP header of downloaded vCards."@en ; a dcs:Addition ]
+		] .
+
 #############################################################
 
 my:project
@@ -123,7 +137,7 @@ my:project
 	:tester         toby:i ;
 	:created        "2011-01-05"^^xsd:date ;
 	:license        <http://dev.perl.org/licenses/> ;
-	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 , my:v_0-005 , my:v_0-006 , my:v_0-007 .
+	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 , my:v_0-005 , my:v_0-006 , my:v_0-007 , my:v_0-008 .
 
 #############################################################
 

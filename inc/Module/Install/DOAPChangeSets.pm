@@ -5,7 +5,7 @@ use 5.008;
 use base qw(Module::Install::Base);
 use strict;
 
-our $VERSION = '0.101';
+our $VERSION = '0.102';
 
 sub write_doap_changes {
 	my $self = shift;

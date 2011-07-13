@@ -16,7 +16,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 use namespace::clean;
 
 use overload '""' => \&to_string;
-our $VERSION = '0.007';
+our $VERSION = '0.008';
 
 sub new
 {
@@ -208,6 +208,12 @@ sub value_node
 		}
 		$uri->data( decode_base64($self->value->[0]) );
 		return rdf_resource("$uri");
+	}
+
+	if (defined $self->type_parameters->{LANG})
+	{
+		return rdf_literal($self->value_to_string,
+			lang => $self->type_parameters->{LANG});
 	}
 
 	return rdf_literal($self->value_to_string);

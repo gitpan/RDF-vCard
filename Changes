@@ -10,6 +10,12 @@ Home page:    <http://search.cpan.org/dist/RDF-vCard/>
 Bug tracker:  <http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard>
 Maintainer:   Toby Inkster <mailto:tobyink@cpan.org>
 
+0.008 [2011-07-13]
+ - (Addition) Use Content-Language HTTP header of downloaded vCards.
+ - (Addition) Add support for 'lang' option when converting vCards to RDF.
+ - (Addition) vcard2rdf script.
+ - (Addition) Include language tags on plain literals, if provided.
+
 0.007 [2011-02-16]
  - (Addition) jCard output.
  - (Bugfix) Setting vcard_version to 3 outputted version 4 vcards.
@@ -18,17 +24,17 @@ Maintainer:   Toby Inkster <mailto:tobyink@cpan.org>
  - (Bugfix) Fix WithXmlSupport's string overloading.
 
 0.005 [2011-01-30]
- - (Addition) Experimental vCard XML support.
  - (Addition) Partial vCard 4.0 support.
  - (Addition) nvalue method on RDF::vCard::Line.
+ - (Addition) Experimental vCard XML support.
 
 0.004 [2011-01-23]
  - More flexibility for other classes wanting to subclass this -
    particularly around different datatypes.
 
 0.003 [2011-01-16] # Two-way conversions.
- - (Addition) Add RDF::vCard::Importer module.
  - (Addition) RDF::vCard::Entity now has add_to_model() and node() methods.
+ - (Addition) Add RDF::vCard::Importer module.
  - (Addition) RDF::vCard::Line now has an add_to_model() method.
 
 0.002 [2011-01-12]

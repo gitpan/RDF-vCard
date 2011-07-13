@@ -11,7 +11,7 @@ use Text::vFile::asData;
 
 use namespace::clean;
 
-our $VERSION = '0.007';
+our $VERSION = '0.008';
 
 sub new
 {
@@ -45,44 +45,44 @@ sub ua
 
 sub import_file
 {
-	my ($self, $file) = @_;
+	my ($self, $file, %options) = @_;
 	open my $fh, "<:encoding(UTF-8)", $file;
 	my $cards = Text::vFile::asData->new->parse($fh);
 	close $fh;
-	return $self->process($cards);
+	return $self->process($cards, %options);
 }
 
 sub import_fh
 {
-	my ($self, $fh) = @_;
+	my ($self, $fh, %options) = @_;
 	my $cards = Text::vFile::asData->new->parse($fh);
-	return $self->process($cards);
+	return $self->process($cards, %options);
 }
 
 sub import_url
 {
 	my ($self, $url) = @_;
-	my $r = $self->ua->get($url, Accept=>'text/directory;profile=vCard, text/vcard, text/x-vcard;q=0.5, text/directory;q=0.1');
+	my $r = $self->ua->get($url, Accept=>'text/directory;profile=vCard, text/vcard, text/x-vcard, text/directory;q=0.1');
 	return unless $r->is_success;
-	return $self->import_string($r->decoded_content);
+	return $self->import_string($r->decoded_content, lang => $r->content_language);
 }
 
 sub import_string
 {
-	my ($self, $data) = @_;
+	my ($self, $data, %options) = @_;
 	my @lines = split /\r?\n/, $data;
 	my $cards = Text::vFile::asData->new->parse_lines(@lines);
-	return $self->process($cards);
+	return $self->process($cards, %options);
 }
 
 sub process
 {
-	my ($self, $cards) = @_;
+	my ($self, $cards, %options) = @_;
 	
 	my @Cards;
 	foreach my $c (@{ $cards->{objects} })
 	{
-		push @Cards, $self->_process_card($c);
+		push @Cards, $self->_process_card($c, %options);
 	}
 	
 	return @Cards;
@@ -90,7 +90,7 @@ sub process
 
 sub _process_card
 {
-	my ($self, $card) = @_;
+	my ($self, $card, %options) = @_;
 	my $C = RDF::vCard->new_entity( profile => $card->{type} );
 	
 	while (my ($prop, $vals) = each %{ $card->{properties} })
@@ -117,12 +117,18 @@ sub _process_card
 			my $L = RDF::vCard::Line->new(
 				property         => uc $prop,
 				value            => $structured_value,
-				type_parameters  => $val->{param}, 
+				type_parameters  => do {
+					                   # force keys to uppercase
+				                      my (%tp, $k, $v);
+				                      $tp{uc $k} = $v while ($k, $v) = each %{$val->{param}};
+											 \%tp;
+				                    },
 				);
 			$L->type_parameters->{TYPE} = [split /,/, $L->type_parameters->{TYPE}]
 				if ($L->type_parameters and $L->type_parameters->{TYPE});
 			$L->type_parameters->{_GROUP} = $group
 				if $group;
+			$L->type_parameters->{LANG} ||= $options{lang} if defined $options{lang};
 			
 			$C->add($L);
 		}
@@ -218,7 +224,7 @@ Reinitialise the importer. Forgets any cards that have already been imported.
 Return an RDF::Trine::Model containing data for all cards that have been
 imported since the importer was last initialised.
 
-=item * C<< import_file($filename) >>
+=item * C<< import_file($filename, %options) >>
 
 Imports vCard data from a file on the file system.
 
@@ -228,11 +234,15 @@ C<model> method).
 This function returns a list of L<RDF::vCard::Entity> objects, so it's
 also possible to access the data that way.
 
-=item * C<< import_fh($filehandle) >>
+There is currently only one supported option: C<lang> which takes an
+ISO language code indicating the default language of text within the vCard
+data.
+
+=item * C<< import_fh($filehandle, %options) >>
 
 As per C<import_file>, but operates on a file handle.
 
-=item * C<< import_string($string) >>
+=item * C<< import_string($string, %options) >>
 
 As per C<import_file>, but operates on vCard data in a string.
 
@@ -240,11 +250,11 @@ As per C<import_file>, but operates on vCard data in a string.
 
 As per C<import_file>, but fetches vCard data from a Web address.
 
-Send an HTTP Accept header of:
+Sends an HTTP Accept header of:
 
   text/directory;profile=vCard,
   text/vcard,
-  text/x-vcard;q=0.5,
+  text/x-vcard,
   text/directory;q=0.1
 
 =back

@@ -7,7 +7,7 @@ use RDF::vCard::Entity;
 use RDF::vCard::Exporter;
 use RDF::vCard::Importer;
 
-our $VERSION = '0.007';
+our $VERSION = '0.008';
 
 our $WITH_XML;
 BEGIN {

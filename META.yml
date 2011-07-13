@@ -4,7 +4,6 @@ author:
   - 'Toby Inkster <tobyink@cpan.org>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
-  Module::Signature: 0.66
   Test::More: 0.61
 configure_requires:
   ExtUtils::MakeMaker: 6.42
@@ -47,4 +46,4 @@ resources:
   homepage: http://search.cpan.org/dist/RDF-vCard/
   license: http://dev.perl.org/licenses/
   repository: http://goddamn.co.uk/viewvc/perlmods/RDF-vCard/
-version: 0.007
+version: 0.008
