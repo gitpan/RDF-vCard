@@ -1,49 +1,60 @@
-############################################################################
-## Changes #################################################################
-############################################################################
-
 RDF-vCard
 =========
 
 Created:      2011-01-05
-Home page:    <http://search.cpan.org/dist/RDF-vCard/>
+Home page:    <https://metacpan.org/release/RDF-vCard>
 Bug tracker:  <http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard>
 Maintainer:   Toby Inkster <mailto:tobyink@cpan.org>
 
-0.008 [2011-07-13]
- - (Addition) Use Content-Language HTTP header of downloaded vCards.
- - (Addition) Add support for 'lang' option when converting vCards to RDF.
- - (Addition) vcard2rdf script.
- - (Addition) Include language tags on plain literals, if provided.
+0.009  2012-06-22
 
-0.007 [2011-02-16]
+ - (Packaging) Reduce dependencies - no longer need common::sense,
+   RDF::TrineShortcuts (thus RDF::Query) or parent.pm, but do need
+   RDF::TrineX::Functions.
+ - (Packaging) Switch to Module::Package::RDF.
+
+0.008  2011-07-13
+
+ - (Addition) Add support for 'lang' option when converting vCards to RDF.
+ - (Addition) Include language tags on plain literals, if provided.
+ - (Addition) Use Content-Language HTTP header of downloaded vCards.
+ - (Addition) vcard2rdf script.
+
+0.007  2011-02-16
+
  - (Addition) jCard output.
  - (Bugfix) Setting vcard_version to 3 outputted version 4 vcards.
 
-0.006 [2011-02-04]
+0.006  2011-02-04
+
  - (Bugfix) Fix WithXmlSupport's string overloading.
 
-0.005 [2011-01-30]
+0.005  2011-01-30
+
+ - (Addition) Experimental vCard XML support.
  - (Addition) Partial vCard 4.0 support.
  - (Addition) nvalue method on RDF::vCard::Line.
- - (Addition) Experimental vCard XML support.
 
-0.004 [2011-01-23]
+0.004  2011-01-23
+
  - More flexibility for other classes wanting to subclass this -
    particularly around different datatypes.
 
-0.003 [2011-01-16] # Two-way conversions.
- - (Addition) RDF::vCard::Entity now has add_to_model() and node() methods.
+0.003  2011-01-16  # Two-way conversions.
+
  - (Addition) Add RDF::vCard::Importer module.
+ - (Addition) RDF::vCard::Entity now has add_to_model() and node() methods.
  - (Addition) RDF::vCard::Line now has an add_to_model() method.
 
-0.002 [2011-01-12]
+0.002  2011-01-12
+
+ - (Addition) Include vCard VERSION property in output.
  - Improved support for 'data:' URIs in binary vCard properties.
  - More consistent support for comma-escaping.
  - Proper support for vCard CATEGORIES property.
  - Support for RDF vCard 2006 v:homeTel property and its ilk.
  - Tidied up export_card method.
- - (Addition) Include vCard VERSION property in output.
 
-0.001 [2011-01-06] # Initial release. RDF to vCard only.
+0.001  2011-01-06  # Initial release. RDF to vCard only.
+
 

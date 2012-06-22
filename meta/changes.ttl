@@ -1,5 +1,3 @@
-#############################################################
-
 @prefix :        <http://usefulinc.com/ns/doap#> .
 @prefix dcs:     <http://ontologi.es/doap-changeset#> .
 @prefix dc:      <http://purl.org/dc/terms/> .
@@ -9,27 +7,16 @@
 @prefix toby:    <http://tobyinkster.co.uk/#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
-#############################################################
-
-<>
-
-	dc:title         "Changes" ;
-	dc:description   "Revision history for Perl extension RDF::vCard."@en ;
-	dc:subject       my:project ;
-	dc:creator       toby:i .
-
-#############################################################
-
+my:project :release my:v_0-001.
 my:v_0-001
-
 	a               :Version ;
 	dc:issued       "2011-01-06"^^xsd:date ;
 	:revision       "0.001"^^xsd:string ;
 	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.001.tar.gz> ;
 	rdfs:label      "Initial release. RDF to vCard only."@en .
 
+my:project :release my:v_0-002.
 my:v_0-002
-
 	a               :Version ;
 	dc:issued       "2011-01-12"^^xsd:date ;
 	:revision       "0.002"^^xsd:string ;
@@ -42,10 +29,10 @@ my:v_0-002
 		dcs:item   [ rdfs:label "Include vCard VERSION property in output."@en ; a dcs:Addition ] ;
 		dcs:item   [ rdfs:label "Tidied up export_card method."@en ] ;
 		dcs:item   [ rdfs:label "More consistent support for comma-escaping."@en ]
-		] .
+	].
 
+my:project :release my:v_0-003.
 my:v_0-003
-
 	a               :Version ;
 	dc:issued       "2011-01-16"^^xsd:date ;
 	:revision       "0.003"^^xsd:string ;
@@ -56,10 +43,10 @@ my:v_0-003
 		dcs:item   [ rdfs:label "Add RDF::vCard::Importer module."@en ; a dcs:Addition ] ;
 		dcs:item   [ rdfs:label "RDF::vCard::Entity now has add_to_model() and node() methods."@en ; a dcs:Addition ] ;
 		dcs:item   [ rdfs:label "RDF::vCard::Line now has an add_to_model() method."@en ; a dcs:Addition ]
-		] .
+	].
 
+my:project :release my:v_0-004.
 my:v_0-004
-
 	a               :Version ;
 	dc:issued       "2011-01-23"^^xsd:date ;
 	:revision       "0.004"^^xsd:string ;
@@ -67,10 +54,10 @@ my:v_0-004
 	dcs:changeset [
 		dcs:versus my:v_0-003 ;
 		dcs:item   [ rdfs:label "More flexibility for other classes wanting to subclass this - particularly around different datatypes."@en ]
-		] .
+	].
 
+my:project :release my:v_0-005.
 my:v_0-005
-
 	a               :Version ;
 	dc:issued       "2011-01-30"^^xsd:date ;
 	:revision       "0.005"^^xsd:string ;
@@ -80,10 +67,10 @@ my:v_0-005
 		dcs:item   [ rdfs:label "nvalue method on RDF::vCard::Line."@en ; a dcs:Addition ] ;
 		dcs:item   [ rdfs:label "Experimental vCard XML support."@en ; a dcs:Addition ] ;
 		dcs:item   [ rdfs:label "Partial vCard 4.0 support."@en ; a dcs:Addition ]
-		] .
+	].
 
+my:project :release my:v_0-006.
 my:v_0-006
-
 	a               :Version ;
 	dc:issued       "2011-02-04"^^xsd:date ;
 	:revision       "0.006"^^xsd:string ;
@@ -91,10 +78,10 @@ my:v_0-006
 	dcs:changeset [
 		dcs:versus my:v_0-005 ;
 		dcs:item   [ rdfs:label "Fix WithXmlSupport's string overloading."@en ; a dcs:Bugfix ]
-		] .
+	].
 
+my:project :release my:v_0-007.
 my:v_0-007
-
 	a               :Version ;
 	dc:issued       "2011-02-16"^^xsd:date ;
 	:revision       "0.007"^^xsd:string ;
@@ -103,10 +90,10 @@ my:v_0-007
 		dcs:versus my:v_0-006 ;
 		dcs:item   [ rdfs:label "Setting vcard_version to 3 outputted version 4 vcards."@en ; a dcs:Bugfix ] ;
 		dcs:item   [ rdfs:label "jCard output."@en ; a dcs:Addition ]
-		] .
+	].
 
+my:project :release my:v_0-008.
 my:v_0-008
-
 	a               :Version ;
 	dc:issued       "2011-07-13"^^xsd:date ;
 	:revision       "0.008"^^xsd:string ;
@@ -117,37 +104,17 @@ my:v_0-008
 		dcs:item   [ rdfs:label "Add support for 'lang' option when converting vCards to RDF."@en ; a dcs:Addition ] ;
 		dcs:item   [ rdfs:label "Include language tags on plain literals, if provided."@en ; a dcs:Addition ] ;
 		dcs:item   [ rdfs:label "Use Content-Language HTTP header of downloaded vCards."@en ; a dcs:Addition ]
-		] .
+	].
 
-#############################################################
+my:project :release my:v_0-009.
+my:v_0-009
+	a               :Version ;
+	dc:issued       "2012-06-22"^^xsd:date ;
+	:revision       "0.009"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.009.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-008 ;
+		dcs:item   [ rdfs:label "Reduce dependencies - no longer need common::sense, RDF::TrineShortcuts (thus RDF::Query) or parent.pm, but do need RDF::TrineX::Functions."@en ; a dcs:Packaging ] ;
+		dcs:item   [ rdfs:label "Switch to Module::Package::RDF."@en ; a dcs:Packaging ]
+	].
 
-my:project
-
-	a               :Project ;
-	:name           "RDF-vCard" ;
-	:shortdesc      "convert between RDF and vCard"@en ;
-	:programming-language  "Perl" ;
-	:homepage       <http://search.cpan.org/dist/RDF-vCard/> ;
-	:download-page  <http://search.cpan.org/dist/RDF-vCard/> ;
-	:bug-database   <http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard> ;
-	:repository     [ a :SVNRepository ; :browse <http://goddamn.co.uk/viewvc/perlmods/RDF-vCard/> ] ;
-	:maintainer     toby:i ;
-	:developer      toby:i ;
-	:documenter     toby:i ;
-	:tester         toby:i ;
-	:created        "2011-01-05"^^xsd:date ;
-	:license        <http://dev.perl.org/licenses/> ;
-	:release        my:v_0-001 , my:v_0-002 , my:v_0-003 , my:v_0-004 , my:v_0-005 , my:v_0-006 , my:v_0-007 , my:v_0-008 .
-
-#############################################################
-
-toby:i
-
-	a               foaf:Person ;
-	foaf:name       "Toby Inkster" ;
-	foaf:homepage   <http://tobyinkster.co.uk/> ;
-	foaf:page       <http://search.cpan.org/~tobyink/> ;
-	foaf:mbox       <mailto:tobyink@cpan.org> ;
-	<http://www.w3.org/2002/07/owl#sameAs> <http://purl.org/NET/cpan-uri/person/tobyink> .
-
-#############################################################

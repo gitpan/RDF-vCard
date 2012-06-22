@@ -1,16 +1,16 @@
 package RDF::vCard::Entity::WithXmlSupport;
 
 use 5.008;
-use base qw'RDF::vCard::Entity';
-use common::sense;
+use strict;
 use constant NS => 'urn:ietf:params:xml:ns:vcard-4.0';
 
 use Scalar::Util qw[blessed];
 use XML::LibXML;
 
+use base qw'RDF::vCard::Entity';
 use namespace::clean;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 sub promote
 {

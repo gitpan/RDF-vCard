@@ -1,17 +1,17 @@
 package RDF::vCard::Importer;
 
 use 5.008;
-use common::sense;
+use strict;
 
 use Encode qw[];
-use RDF::TrineShortcuts ':all';
+use RDF::TrineX::Functions -shortcuts;
 use RDF::vCard::Entity;
 use RDF::vCard::Line;
 use Text::vFile::asData;
 
 use namespace::clean;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 sub new
 {
@@ -36,7 +36,7 @@ sub model
 
 *TO_RDF = \&model;
 
-sub ua
+sub _ua
 {
 	my ($self) = @_;
 	$self->{ua} ||= LWP::UserAgent->new(agent => sprintf('%s/%s', __PACKAGE__, $VERSION));
@@ -49,20 +49,20 @@ sub import_file
 	open my $fh, "<:encoding(UTF-8)", $file;
 	my $cards = Text::vFile::asData->new->parse($fh);
 	close $fh;
-	return $self->process($cards, %options);
+	return $self->_process($cards, %options);
 }
 
 sub import_fh
 {
 	my ($self, $fh, %options) = @_;
 	my $cards = Text::vFile::asData->new->parse($fh);
-	return $self->process($cards, %options);
+	return $self->_process($cards, %options);
 }
 
 sub import_url
 {
 	my ($self, $url) = @_;
-	my $r = $self->ua->get($url, Accept=>'text/directory;profile=vCard, text/vcard, text/x-vcard, text/directory;q=0.1');
+	my $r = $self->_ua->get($url, Accept=>'text/directory;profile=vCard, text/vcard, text/x-vcard, text/directory;q=0.1');
 	return unless $r->is_success;
 	return $self->import_string($r->decoded_content, lang => $r->content_language);
 }
@@ -72,10 +72,10 @@ sub import_string
 	my ($self, $data, %options) = @_;
 	my @lines = split /\r?\n/, $data;
 	my $cards = Text::vFile::asData->new->parse_lines(@lines);
-	return $self->process($cards, %options);
+	return $self->_process($cards, %options);
 }
 
-sub process
+sub _process
 {
 	my ($self, $cards, %options) = @_;
 	
@@ -258,6 +258,12 @@ Sends an HTTP Accept header of:
   text/directory;q=0.1
 
 =back
+
+=begin private
+
+=item TO_RDF
+
+=end private
 
 =head2 vCard Input
 

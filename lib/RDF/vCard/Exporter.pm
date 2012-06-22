@@ -1,12 +1,12 @@
 package RDF::vCard::Exporter;
 
 use 5.008;
-use common::sense;
+use strict;
 
 use MIME::Base64 qw[];
 use RDF::vCard::Entity;
 use RDF::vCard::Line;
-use RDF::TrineShortcuts qw[:all];
+use RDF::TrineX::Functions -shortcuts;
 use Scalar::Util qw[blessed];
 use URI;
 
@@ -18,7 +18,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 
 use namespace::clean;
 
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 our $PRODID  = sprintf("+//IDN cpan.org//NONSGML %s v %s//EN", __PACKAGE__, $VERSION);
 
 our %dispatch = (
@@ -649,6 +649,14 @@ As per C<export_cards> but exports just a single card.
 
 The subject provided must be an RDF::Trine::Node::Blank or
 RDF::Trine::Node::Resource of type v:VCard.
+
+=item * C<< is_v3 >>
+
+Returns true if this exporter is in vCard 3.0 mode.
+
+=item * C<< is_v4 >>
+
+Returns true if this exporter is in vCard 4.0 mode.
 
 =back
 

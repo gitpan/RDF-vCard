@@ -1,0 +1,41 @@
+@prefix :        <http://usefulinc.com/ns/doap#> .
+@prefix dcs:     <http://ontologi.es/doap-changeset#> .
+@prefix dc:      <http://purl.org/dc/terms/> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix my:      <http://purl.org/NET/cpan-uri/dist/RDF-vCard/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix toby:    <http://tobyinkster.co.uk/#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+my:project
+	a               :Project ;
+	:name           "RDF-vCard" ;
+	:shortdesc      "convert between RDF and vCard"@en ;
+	:programming-language  "Perl" ;
+	:homepage       <https://metacpan.org/release/RDF-vCard> ;
+	:download-page  <https://metacpan.org/release/RDF-vCard> ;
+	:bug-database   <http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard> ;
+	:repository     [ a :HgRepository ; :browse <https://bitbucket.org/tobyink/p5-rdf-vcard> ] ;
+	:maintainer     toby:i ;
+	:developer      toby:i ;
+	:documenter     toby:i ;
+	:tester         toby:i ;
+	:created        "2011-01-05"^^xsd:date ;
+	:license        <http://dev.perl.org/licenses/> ;
+	:category 
+		[ rdfs:label "RDF"@en ],
+		[ rdfs:label "Semantic Web"@en ],
+		[ rdfs:label "SemWeb"@en ],
+		[ rdfs:label "vCard"@en ],
+		[ rdfs:label "Directory"@en ],
+		[ rdfs:label "Contacts"@en ],
+		[ rdfs:label "hCard"@en ],
+		[ rdfs:label "XML"@en ].
+
+toby:i
+	a               foaf:Person ;
+	foaf:name       "Toby Inkster" ;
+	foaf:homepage   <http://tobyinkster.co.uk/> ;
+	foaf:page       <https://metacpan.org/author/TOBYINK> ;
+	foaf:mbox       <mailto:tobyink@cpan.org> ;
+	<http://www.w3.org/2002/07/owl#sameAs> <http://purl.org/NET/cpan-uri/person/tobyink> .
