@@ -5,7 +5,12 @@ use strict;
 
 use Encode;
 use MIME::Base64;
-use RDF::TrineX::Functions -shortcuts;
+use RDF::Trine::Namespace qw[xsd];
+use RDF::TrineX::Functions
+	-shortcuts,
+	statement => { -as => 'rdf_statement' },
+	literal   => { -as => 'rdf_literal' },
+	iri       => { -as => 'rdf_resource' };
 use URI::data;
 
 sub V    { return 'http://www.w3.org/2006/vcard/ns#' . shift; }
@@ -16,7 +21,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 use namespace::clean;
 
 use overload '""' => \&to_string;
-our $VERSION = '0.009';
+our $VERSION = '0.010';
 
 sub new
 {
@@ -180,10 +185,10 @@ sub value_node
 {
 	my ($self) = @_;
 
-	return rdf_literal($self->value_to_string, datatype=>'date')
+	return rdf_literal($self->value_to_string, undef, $xsd->date)
 		if (defined $self->type_parameters and uc $self->type_parameters->{VALUE} eq 'DATE');
 
-	return rdf_literal($self->value_to_string, datatype=>'dateTime')
+	return rdf_literal($self->value_to_string, undef, $xsd->dateTime)
 		if (defined $self->type_parameters and uc $self->type_parameters->{VALUE} eq 'DATE-TIME');
 
 	return rdf_resource($self->value_to_string)
@@ -212,8 +217,7 @@ sub value_node
 
 	if (defined $self->type_parameters->{LANG})
 	{
-		return rdf_literal($self->value_to_string,
-			lang => $self->type_parameters->{LANG});
+		return rdf_literal($self->value_to_string, $self->type_parameters->{LANG});
 	}
 
 	return rdf_literal($self->value_to_string);

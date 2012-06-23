@@ -6,6 +6,11 @@ Home page:    <https://metacpan.org/release/RDF-vCard>
 Bug tracker:  <http://rt.cpan.org/Dist/Display.html?Queue=RDF-vCard>
 Maintainer:   Toby Inkster <mailto:tobyink@cpan.org>
 
+0.010  2012-06-23
+
+ - (Bugfix) Fix various small issues around RDF::TrineShortcuts ->
+   RDF::TrineX::Functions switch.
+
 0.009  2012-06-22
 
  - (Packaging) Reduce dependencies - no longer need common::sense,

@@ -6,7 +6,9 @@ use strict;
 use MIME::Base64 qw[];
 use RDF::vCard::Entity;
 use RDF::vCard::Line;
-use RDF::TrineX::Functions -shortcuts;
+use RDF::TrineX::Functions
+	-shortcuts,
+	iri => { -as => 'rdf_resource' };
 use Scalar::Util qw[blessed];
 use URI;
 
@@ -16,9 +18,16 @@ sub VX   { return 'http://buzzword.org.uk/rdf/vcardx#' . shift; }
 sub RDF  { return 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' . shift; }
 sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 
+sub flatten_node
+{
+	my $node = shift;
+	return $node->value if $node->is_resource || $node->is_literal;
+	return $node->as_ntriples;
+}
+
 use namespace::clean;
 
-our $VERSION = '0.009';
+our $VERSION = '0.010';
 our $PRODID  = sprintf("+//IDN cpan.org//NONSGML %s v %s//EN", __PACKAGE__, $VERSION);
 
 our %dispatch = (

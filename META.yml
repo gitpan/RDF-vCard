@@ -44,4 +44,4 @@ resources:
   homepage: https://metacpan.org/release/RDF-vCard
   license: http://dev.perl.org/licenses/
   repository: https://bitbucket.org/tobyink/p5-rdf-vcard
-version: 0.009
+version: 0.010

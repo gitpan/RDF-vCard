@@ -1,6 +1,4 @@
-use lib "lib";
-use lib "../HTML-Microformats/lib";
-use RDF::TrineShortcuts;
+use RDF::TrineX::Functions -shortcuts;
 use HTML::Microformats;
 use RDF::vCard;
 use JSON -convert_blessed_universally;
@@ -30,7 +28,7 @@ HTML
 
 my $doc = HTML::Microformats->new_document($html, "http://example.com/", type=>'application/xhtml+xml')->assume_all_profiles;
 
-my $model = rdf_parse(<<'MORE', type=>'turtle', model => $doc->model);
+my $model = rdf_parse(<<'MORE', type=>'turtle', model => $doc->model, base => 'http://example.net/base/');
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix v: <http://www.w3.org/2006/vcard/ns#> .
 @prefix vx: <http://buzzword.org.uk/rdf/vcardx#> .

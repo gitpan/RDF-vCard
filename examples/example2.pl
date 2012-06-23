@@ -1,6 +1,5 @@
-use lib "lib";
 use Data::Dumper;
-use RDF::TrineShortcuts;
+use RDF::TrineX::Functions -shortcuts;
 use HTML::Microformats;
 use RDF::vCard;
 use RDF::vCard::Importer;
@@ -27,7 +26,7 @@ HTML
 
 my $doc = HTML::Microformats->new_document($html, "http://example.com/", type=>'application/xhtml+xml')->assume_all_profiles;
 
-my $model = rdf_parse(<<'MORE', type=>'turtle', model => $doc->model);
+my $model = rdf_parse(<<'MORE', type=>'turtle', model => $doc->model, base => 'http://example.net/base/');
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix v: <http://www.w3.org/2006/vcard/ns#> .
 @prefix vx: <http://buzzword.org.uk/rdf/vcardx#> .
@@ -70,4 +69,4 @@ my $importer = RDF::vCard::Importer->new;
 my @rv = $importer->import_string($cards);
 print $cards;
 print Dumper([ @rv ]);
-print rdf_string($importer => 'RDFXML');
+print rdf_string($importer->model => 'RDFXML');

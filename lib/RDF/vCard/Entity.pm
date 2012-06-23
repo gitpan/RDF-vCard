@@ -4,7 +4,10 @@ use 5.008;
 use strict;
 
 use JSON qw[];
-use RDF::TrineX::Functions -shortcuts;
+use RDF::TrineX::Functions
+	-shortcuts,
+	statement => { -as => 'rdf_statement' },
+	iri       => { -as => 'rdf_resource' };
 
 sub V    { return 'http://www.w3.org/2006/vcard/ns#' . shift; }
 sub VX   { return 'http://buzzword.org.uk/rdf/vcardx#' . shift; }
@@ -14,7 +17,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 use namespace::clean;
 
 use overload '""' => \&to_string;
-our $VERSION = '0.009';
+our $VERSION = '0.010';
 
 sub new
 {

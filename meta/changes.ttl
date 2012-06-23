@@ -118,3 +118,14 @@ my:v_0-009
 		dcs:item   [ rdfs:label "Switch to Module::Package::RDF."@en ; a dcs:Packaging ]
 	].
 
+my:project :release my:v_0-010.
+my:v_0-010
+	a               :Version ;
+	dc:issued       "2012-06-23"^^xsd:date ;
+	:revision       "0.010"^^xsd:string ;
+	:file-release   <http://backpan.cpan.org/authors/id/T/TO/TOBYINK/RDF-vCard-0.010.tar.gz> ;
+	dcs:changeset [
+		dcs:versus my:v_0-009 ;
+		dcs:item   [ rdfs:label "Fix various small issues around RDF::TrineShortcuts -> RDF::TrineX::Functions switch."@en ; a dcs:Bugfix ]
+	].
+

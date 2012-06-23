@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 
 use strict;
-use lib "lib";
 use RDF::vCard;
 use Data::Dumper;
 

@@ -14,19 +14,19 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 e72d0dd9d22b8df75a8d97632e0fb371af40378f Changes
+SHA1 834050d7d22ebb023c23a70e674360abdf043341 Changes
 SHA1 cc087c3dd6e1b519c680e68cd0231735a68300a0 LICENSE
 SHA1 e5148255963a10277ea1eb7261e4e245ba88e31f MANIFEST
-SHA1 be19306e2af56d8173b9da77d5d03bce4643c1e7 META.yml
+SHA1 c2d19fbe2fd1fd7cea0b406e7bc3bcff0b1bfedd META.yml
 SHA1 952dced47930b5a904a20c6530e3e686ea5c67b1 Makefile.PL
 SHA1 737527638dbf0f1eeff96ada9072cb6693114d4c README
 SHA1 2c73701575eea819b4ce599c67436e446731d180 TODO
 SHA1 0926bce06bccb7c038d7a2af4b3572b957789a75 bin/vcard2rdf
 SHA1 4c78b0f3419a570c8519340f7f93bb4ab10ada33 bin/vcard2xml
 SHA1 05603de07e9235f261a7b890a6382f578d9272e0 examples/example.vcard
-SHA1 75e4957a50bc0cee0da9b93e914cbc88bfe12114 examples/example1.pl
-SHA1 6cde93aef56458cbd522114eb7364a143a45605a examples/example2.pl
-SHA1 249a6a3ec11ab1b57233e7409dd74ad5ba105be0 examples/example3.pl
+SHA1 ca1ed448298bbafe26b36bb492b00685a7988bd8 examples/example1.pl
+SHA1 52fa14b4b07dc76ed895a6ef4521c22754ae9f80 examples/example2.pl
+SHA1 8a1eff5ffb39e50ad73cb12dbebcc4f1a682b7a0 examples/example3.pl
 SHA1 06c410f05488c1612ed66b06d3a86b2580581e4a inc/Module/AutoInstall.pm
 SHA1 8a924add836b60fb23b25c8506d45945e02f42f4 inc/Module/Install.pm
 SHA1 61ab1dd37e33ddbe155907ce51df8a3e56ac8bbf inc/Module/Install/AutoInstall.pm
@@ -48,13 +48,13 @@ SHA1 e31c281782183601e1e057c5914f63269e043932 inc/Scalar/Util.pm
 SHA1 5eae2f71c45a996a296d2445b18d0589307111f0 inc/Scalar/Util/PP.pm
 SHA1 feb933cefe2e3762e8322bd6071a2499f3440da1 inc/YAML/Tiny.pm
 SHA1 8105c0510a773b56840995fb4dd2dc64fe9ddaee inc/unicore/Name.pm
-SHA1 4debe017fe7d6b3133ef72066438962335bb9293 lib/RDF/vCard.pm
-SHA1 f65bb62e484f1da5a5adeec2bb55e56f3f1e826a lib/RDF/vCard/Entity.pm
-SHA1 d3a8a68ce07ae25d136bb192e910c49e1aa885dd lib/RDF/vCard/Entity/WithXmlSupport.pm
-SHA1 948119e977074a6aa2a80f967604b772108e8c77 lib/RDF/vCard/Exporter.pm
-SHA1 9e0dc3eecd6dc85e7ffdc4706bc224362313d54a lib/RDF/vCard/Importer.pm
-SHA1 ee86f6d1a4f1147baa0767b424b673f80d7e1156 lib/RDF/vCard/Line.pm
-SHA1 dfc9667f05cc953dd245cae2ffcdc4b525daf130 meta/changes.ttl
+SHA1 c238bc473c6f2d95321f16412568540781149701 lib/RDF/vCard.pm
+SHA1 cc9ecd21f3b5600dc6f928286f8bf1351640fbe6 lib/RDF/vCard/Entity.pm
+SHA1 114a804d85280181d03141e2f46156928bccd583 lib/RDF/vCard/Entity/WithXmlSupport.pm
+SHA1 97c0a42ffa01b79b862544278118f19e619fca61 lib/RDF/vCard/Exporter.pm
+SHA1 b88d7791532ea2ddb3fd6bc920359b0a809b716e lib/RDF/vCard/Importer.pm
+SHA1 12748cd57d6fd9a386a90b21f4d312debff198b1 lib/RDF/vCard/Line.pm
+SHA1 62883f01dde70e4b14a7507f71aadd8297879d5c meta/changes.ttl
 SHA1 84b99c222c2a0371404e55127ab6ed9a059f9bc4 meta/doap.ttl
 SHA1 2f530683f1d41036185eac683848da00a8ff3c5c meta/makefile.ttl
 SHA1 2ef0867c3d70fe00fa12860436adc283158d0c52 meta/rt-bugs.ttl
@@ -62,7 +62,7 @@ SHA1 87aa60dd374d9627ee83f929d987483a5503a7e4 t/01basic.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iEYEARECAAYFAk/k4SMACgkQzr+BKGoqfTnK8wCdGTma+7oSYbltYz9M30rgqFoO
-x5YAoImB6t5+evzEB4wkESSLY3GuNVo/
-=ouVj
+iEYEARECAAYFAk/mORgACgkQzr+BKGoqfTmXiACfYqwgfiM9DHUPLKxTr+Izac2K
+bUYAn1F94BnZlfYesgqWmXcFYALZHp+l
+=VgF5
 -----END PGP SIGNATURE-----
