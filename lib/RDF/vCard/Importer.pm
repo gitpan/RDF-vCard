@@ -2,6 +2,7 @@ package RDF::vCard::Importer;
 
 use 5.008;
 use strict;
+use warnings;
 
 use Encode qw[];
 use RDF::TrineX::Functions -shortcuts;
@@ -11,7 +12,7 @@ use Text::vFile::asData;
 
 use namespace::clean;
 
-our $VERSION = '0.010';
+our $VERSION = '0.011';
 
 sub new
 {

@@ -16,12 +16,12 @@ SYNOPSIS
      print rdf_string($importer->model => 'RDFXML');
 
 DESCRIPTION
-    This module doesn't do anything itself; it just loads
-    RDF::vCard::Exporter and RDF::vCard::Importer for you.
+    This module doesn't do anything itself; it just loads RDF::vCard::Exporter
+    and RDF::vCard::Importer for you.
 
   RDF::vCard::Exporter
-    RDF::vCard::Exporter takes some RDF using the W3C's vCard vocabulary,
-    and outputs RDF::vCard::Entity objects.
+    RDF::vCard::Exporter takes some RDF using the W3C's vCard vocabulary, and
+    outputs RDF::vCard::Entity objects.
 
   RDF::vCard::Importer
     RDF::vCard::Importer does the reverse.
@@ -32,7 +32,7 @@ DESCRIPTION
 
   RDF::vCard::Entity::WithXmlSupport
     RDF::vCard::Entity::WithXmlSupport is a subclass of RDF::vCard::Entity,
-    with a "to_xml" method. It requires XML::LibXML to be installed and
+    with a `to_xml` method. It requires XML::LibXML to be installed and
     working. The importer and exporter will try to create these if possible.
 
   RDF::vCard::Line

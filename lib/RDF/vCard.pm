@@ -2,12 +2,13 @@ package RDF::vCard;
 
 use 5.008;
 use strict;
+use warnings;
 
 use RDF::vCard::Entity;
 use RDF::vCard::Exporter;
 use RDF::vCard::Importer;
 
-our $VERSION = '0.010';
+our $VERSION = '0.011';
 
 our $WITH_XML;
 BEGIN {
