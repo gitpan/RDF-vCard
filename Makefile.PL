@@ -41,12 +41,12 @@ my $meta = {
                             test => { requires => { "Test::More" => 0.61 } },
                           },
   "provides"           => {
-                            "RDF::vCard"                         => { file => "lib/RDF/vCard.pm", version => 0.011 },
-                            "RDF::vCard::Entity"                 => { file => "lib/RDF/vCard/Entity.pm", version => 0.011 },
-                            "RDF::vCard::Entity::WithXmlSupport" => { file => "lib/RDF/vCard/Entity/WithXmlSupport.pm", version => 0.011 },
-                            "RDF::vCard::Exporter"               => { file => "lib/RDF/vCard/Exporter.pm", version => 0.011 },
-                            "RDF::vCard::Importer"               => { file => "lib/RDF/vCard/Importer.pm", version => 0.011 },
-                            "RDF::vCard::Line"                   => { file => "lib/RDF/vCard/Line.pm", version => 0.011 },
+                            "RDF::vCard"                         => { file => "lib/RDF/vCard.pm", version => 0.012 },
+                            "RDF::vCard::Entity"                 => { file => "lib/RDF/vCard/Entity.pm", version => 0.012 },
+                            "RDF::vCard::Entity::WithXmlSupport" => { file => "lib/RDF/vCard/Entity/WithXmlSupport.pm", version => 0.012 },
+                            "RDF::vCard::Exporter"               => { file => "lib/RDF/vCard/Exporter.pm", version => 0.012 },
+                            "RDF::vCard::Importer"               => { file => "lib/RDF/vCard/Importer.pm", version => 0.012 },
+                            "RDF::vCard::Line"                   => { file => "lib/RDF/vCard/Line.pm", version => 0.012 },
                           },
   "release_status"     => "stable",
   "resources"          => {
@@ -61,7 +61,7 @@ my $meta = {
                             x_identifier => "http://purl.org/NET/cpan-uri/dist/RDF-vCard/project",
                             x_IRC        => "irc://irc.perl.org/#perlrdf",
                           },
-  "version"            => 0.011,
+  "version"            => 0.012,
   "x_provides_scripts" => {
                             vcard2rdf => { file => "bin/vcard2rdf" },
                             vcard2xml => { file => "bin/vcard2xml" },

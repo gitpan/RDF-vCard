@@ -3,6 +3,7 @@ package RDF::vCard::Entity;
 use 5.008;
 use strict;
 use warnings;
+no warnings qw(uninitialized);
 
 use JSON qw[];
 use RDF::TrineX::Functions
@@ -18,7 +19,7 @@ sub XSD  { return 'http://www.w3.org/2001/XMLSchema#' . shift; }
 use namespace::clean;
 
 use overload '""' => \&to_string;
-our $VERSION = '0.011';
+our $VERSION = '0.012';
 
 sub new
 {

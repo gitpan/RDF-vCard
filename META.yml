@@ -33,22 +33,22 @@ optional_features: {}
 provides:
   RDF::vCard:
     file: lib/RDF/vCard.pm
-    version: '0.011'
+    version: '0.012'
   RDF::vCard::Entity:
     file: lib/RDF/vCard/Entity.pm
-    version: '0.011'
+    version: '0.012'
   RDF::vCard::Entity::WithXmlSupport:
     file: lib/RDF/vCard/Entity/WithXmlSupport.pm
-    version: '0.011'
+    version: '0.012'
   RDF::vCard::Exporter:
     file: lib/RDF/vCard/Exporter.pm
-    version: '0.011'
+    version: '0.012'
   RDF::vCard::Importer:
     file: lib/RDF/vCard/Importer.pm
-    version: '0.011'
+    version: '0.012'
   RDF::vCard::Line:
     file: lib/RDF/vCard/Line.pm
-    version: '0.011'
+    version: '0.012'
 requires:
   RDF::Trine: '0.135'
   RDF::TrineX::Functions: '0'
@@ -64,7 +64,7 @@ resources:
   homepage: https://metacpan.org/release/RDF-vCard
   license: http://dev.perl.org/licenses/
   repository: git://github.com/tobyink/p5-rdf-vcard.git
-version: '0.011'
+version: '0.012'
 x_provides_scripts:
   vcard2rdf:
     file: bin/vcard2rdf
